@@ -1,14 +1,5 @@
-import os
-import time
-from flask import Flask
-
-app = Flask(__name__)
-
-@app.route('/')
-def home():
-    return "Porbandar Property Scraper is Live & Running!"
-
-if __name__ == '__main__':
-    # Render ke liye dynamic port bind karna zaroori hai
-    port = int(os.environ.get('PORT', 10000))
-    app.run(host='0.0.0.0', port=port)
+# Agar title ya price mein Error na ho, tabhi sheet mein row add karein
+if title and "Error" not in title and "Exception" not in title and "Failed" not in title:
+    sheet.append_row([title, city, price, market_price])
+else:
+    print("Invalid data, skipping...")
