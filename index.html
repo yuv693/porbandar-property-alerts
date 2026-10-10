@@ -1,4 +1,4 @@
-<!DOCTYP<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="gu">
 <head>
     <meta charset="UTF-8">
@@ -35,73 +35,5 @@
             });
         }
     </script>
-</body>
-</html>E html>
-<html lang="hi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Porbandar Bank Auction Properties</title>
-    <style>
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #f4f7f6; margin: 0; padding: 15px; }
-        .container { max-width: 600px; margin: 0 auto; }
-        .card { background: #fff; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); margin-bottom: 20px; overflow: hidden; }
-        .header { background: #d9534f; color: white; text-align: center; padding: 12px; font-weight: bold; font-size: 18px; }
-        .property-img { width: 100%; height: 220px; object-fit: cover; background: #eee; }
-        .content { padding: 15px; }
-        .row { margin-bottom: 10px; font-size: 15px; }
-        .highlight { color: #d9534f; font-weight: bold; }
-        .whatsapp-btn { background-color: #25D366; color: white; padding: 12px; text-decoration: none; font-weight: bold; border-radius: 6px; display: block; text-align: center; margin-top: 15px; }
-    </style>
-</head>
-<body>
-
-<div class="container">
-    <div class="header">🚨 Porbandar Live Bank Auction Properties 🚨</div>
-    <div id="property-list">
-        <p style="text-align:center; font-weight:bold; margin-top:20px;">Porbandar ki properties load ho rahi hain... ⏳</p>
-    </div>
-</div>
-
-<script>
-    const sheetCSV_URL = "https://docs.google.com/spreadsheets/d/17Wi3vFVBZcBHRsktm83lWmx8tJr1w3CU4zMK5GUo_qg/export?format=csv";
-
-    fetch(sheetCSV_URL)
-        .then(res => res.text())
-        .then(csvText => {
-            const rows = csvText.split('\n').slice(1);
-            let htmlContent = '';
-
-            rows.forEach(row => {
-                const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/); 
-                if(cols.length > 5 && cols[1] && cols[1].trim().toLowerCase().includes('porbandar')) {
-                    htmlContent += `
-                    <div class="card">
-                        <img src="${cols[7] ? cols[7].trim() : 'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=600&q=80'}" class="property-img">
-                        <div class="content">
-                            <div class="row">📍 <strong>Location:</strong> ${cols[1].replace(/["']/g, "")}</div>
-                            <div class="row">🏠 <strong>Type:</strong> ${cols[0].replace(/["']/g, "")}</div>
-                            <div class="row">💰 <strong>Reserve Price:</strong> <span class="highlight">${cols[2].replace(/["']/g, "")}</span> (Market: ${cols[3].replace(/["']/g, "")})</div>
-                            <div class="row">🏦 <strong>Bank:</strong> ${cols[4].replace(/["']/g, "")}</div>
-                            <div class="row" style="background:#f9f9f9; padding:10px; margin-top:10px; border-left: 3px solid #0275d8;">
-                                🗺️ <a href="${cols[5].replace(/["']/g, "")}" target="_blank" style="color:#0275d8;">Google Map par dekhein</a><br>
-                                📄 <strong>Pata:</strong> ${cols[6].replace(/["']/g, "")}
-                            </div>
-                            <a href="${cols[8] ? cols[8].replace(/["']/g, "") : '#'}" target="_blank" class="whatsapp-btn">💬 Porbandar WhatsApp Group Join Karein</a>
-                        </div>
-                    </div>`;
-                }
-            });
-            
-            if(htmlContent === '') {
-                htmlContent = "<p style='text-align:center; font-weight:bold;'>Abhi Porbandar ki koi property list mein nahi hai.</p>";
-            }
-
-            document.getElementById('property-list').innerHTML = htmlContent;
-        })
-        .catch(error => {
-            document.getElementById('property-list').innerHTML = "<p style='text-align:center;color:red;'>Data load hone mein kuch dikkat aayi.</p>";
-        });
-</script>
 </body>
 </html>
