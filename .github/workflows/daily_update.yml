@@ -1,0 +1,35 @@
+name: Daily Property Alerts Auto Update
+
+on:
+  schedule:
+    - cron: '0 2 * * *' # Roz subah 7:30 AM IST par apne aap chalega
+  workflow_dispatch: # Manual Button Run ke liye
+
+permissions:
+  contents: write
+
+jobs:
+  update-alerts:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install Dependencies
+        run: pip install requests beautifulsoup4
+
+      - name: Run Scraper Script
+        run: python scraper.py
+
+      - name: Commit and Push Changes Automatically
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add alerts.json || git add property_data.json || git add tenders.json
+          git commit -m "Auto-Updated Property Alerts Data" || exit 0
+          git push
