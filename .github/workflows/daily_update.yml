@@ -1,52 +1,37 @@
-import json
-import os
-import requests
-from bs4 import BeautifulSoup
+name: Daily Bank Auction Update
 
-JSON_FILE = 'properties.json'
+on:
+  schedule:
+    - cron: '0 0 * * *' # Roz raat ko automatically chalega
+  workflow_dispatch: # Direct manually run karne ke liye
 
-def load_existing_data():
-    if os.path.exists(JSON_FILE):
-        try:
-            with open(JSON_FILE, 'r', encoding='utf-8') as f:
-                return json.load(f)
-        except Exception as e:
-            print(f"Error reading {JSON_FILE}: {e}")
-            return []
-    return []
+jobs:
+  build-and-run:
+    runs-on: ubuntu-latest
 
-def save_data(data):
-    with open(JSON_FILE, 'w', encoding='utf-8') as f:
-        json.dump(data, f, ensure_ascii=False, indent=2)
+    steps:
+    - name: Check out repository
+      uses: actions/checkout@v3
 
-def fetch_new_auctions():
-    # Yahan Porbandar / Gujarat Bank Auction portal scraping logic aayega
-    # Sample dynamic payload simulation
-    new_entries = []
-    
-    # Example logic: Agar koi naya item mila jo existing JSON me nahi hai
-    # Toh array me append karega
-    return new_entries
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
 
-def main():
-    existing_data = load_existing_data()
-    existing_ids = {item.get('id') for item in existing_data}
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install requests beautifulsoup4
 
-    new_auctions = fetch_new_auctions()
-    added_count = 0
+    - name: Run Scraper
+      run: python scraper.py
 
-    for item in new_auctions:
-        if item.get('id') not in existing_ids:
-            # Naya item sabse upar add hoga
-            existing_data.insert(0, item)
-            existing_ids.add(item.get('id'))
-            added_count += 1
-
-    if added_count > 0:
-        save_data(existing_data)
-        print(f"Successfully added {added_count} new bank auction properties!")
-    else:
-        print("No new properties found today. Existing data preserved.")
-
-if __name__ == '__main__':
-    main()
+    - name: Commit and push updated JSON
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        git add properties.json
+        git commit -m "Auto-update real bank auction data" || exit 0
+        git push
