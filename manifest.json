@@ -1,0 +1,15 @@
+{
+  "name": "Porbandar Bank Auctions",
+  "short_name": "BankAuctions",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#0d47a1",
+  "theme_color": "#0d47a1",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/2830/2830284.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
