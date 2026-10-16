@@ -1,38 +1,52 @@
-name: Daily Property Alerts Auto Update
+import json
+import os
+import requests
+from bs4 import BeautifulSoup
 
-on:
-  schedule:
-    - cron: '0 2 * * *' # Roz subah 7:30 AM IST
-  workflow_dispatch: # Manual Run Button
+JSON_FILE = 'properties.json'
 
-permissions:
-  contents: write
+def load_existing_data():
+    if os.path.exists(JSON_FILE):
+        try:
+            with open(JSON_FILE, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except Exception as e:
+            print(f"Error reading {JSON_FILE}: {e}")
+            return []
+    return []
 
-jobs:
-  update-alerts:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
+def save_data(data):
+    with open(JSON_FILE, 'w', encoding='utf-8') as f:
+        json.dump(data, f, ensure_ascii=False, indent=2)
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.10'
+def fetch_new_auctions():
+    # Yahan Porbandar / Gujarat Bank Auction portal scraping logic aayega
+    # Sample dynamic payload simulation
+    new_entries = []
+    
+    # Example logic: Agar koi naya item mila jo existing JSON me nahi hai
+    # Toh array me append karega
+    return new_entries
 
-      - name: Install Dependencies
-        run: |
-          python -m pip install --upgrade pip
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-          pip install requests beautifulsoup4 flask || true
+def main():
+    existing_data = load_existing_data()
+    existing_ids = {item.get('id') for item in existing_data}
 
-      - name: Run Scraper Script
-        run: python scraper.py
+    new_auctions = fetch_new_auctions()
+    added_count = 0
 
-      - name: Commit and Push Changes Automatically
-        run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add .
-          git commit -m "Auto-Updated Property Alerts Data" || exit 0
-          git push
+    for item in new_auctions:
+        if item.get('id') not in existing_ids:
+            # Naya item sabse upar add hoga
+            existing_data.insert(0, item)
+            existing_ids.add(item.get('id'))
+            added_count += 1
+
+    if added_count > 0:
+        save_data(existing_data)
+        print(f"Successfully added {added_count} new bank auction properties!")
+    else:
+        print("No new properties found today. Existing data preserved.")
+
+if __name__ == '__main__':
+    main()
