@@ -1,7 +1,7 @@
 import json
 import os
+import re
 import requests
-from bs4 import BeautifulSoup
 
 JSON_FILE = 'properties.json'
 
@@ -22,72 +22,56 @@ def save_data(data):
 def fetch_porbandar_auctions():
     scraped_properties = []
     
-    # Enhanced browser headers to avoid basic bot detection
+    # Advanced headers to mimic real user browser
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
-        'Accept-Language': 'en-US,en;q=0.9,hi;q=0.8',
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8'
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+        'Accept-Language': 'en-US,en;q=0.5',
+        'Connection': 'keep-alive',
+        'Upgrade-Insecure-Requests': '1'
     }
 
-    target_urls = [
-        "https://www.bankauctions.in/search/?q=porbandar"
-    ]
+    url = "https://www.bankauctions.in/search/?q=porbandar"
 
-    for url in target_urls:
-        try:
-            print(f"Connecting securely to: {url}")
-            response = requests.get(url, headers=headers, timeout=20)
-            
-            print(f"Response status code: {response.status_code}")
-            
-            if response.status_code == 200:
-                soup = BeautifulSoup(response.text, 'html.parser')
-                cards = soup.find_all(['div', 'tr', 'li'], class_=lambda x: x and ('property' in x.lower() or 'auction' in x.lower() or 'item' in x.lower()))
-                
-                print(f"Found {len(cards)} total listing cards.")
-                
-                for idx, card in enumerate(cards):
-                    text_content = card.get_text(separator=' ', strip=True)
-                    
-                    if 'porbandar' in text_content.lower():
-                        title_elem = card.find(['h2', 'h3', 'h4', 'a'])
-                        title = title_elem.get_text(strip=True) if title_elem else "Bank e-Auction Property in Porbandar"
-                        
-                        prop_id = f"porb-live-{abs(hash(title)) % 100000}"
-                        
-                        property_item = {
-                            "id": prop_id,
-                            "title": title[:100],
-                            "bank": "Scheduled Bank E-Auction",
-                            "location": "Porbandar, Gujarat",
-                            "price": "Check Bank Notice / Reserve Price",
-                            "date": "Active Notice",
-                            "details": text_content[:250] + "..."
-                        }
-                        
-                        # Avoid duplicates in current batch
-                        if not any(p['id'] == prop_id for p in scraped_properties):
-                            scraped_properties.append(property_item)
-                            
-        except Exception as e:
-            print(f"Error during fetching: {e}")
+    try:
+        print(f"Connecting to target portal for Porbandar...")
+        response = requests.get(url, headers=headers, timeout=25)
+        print(f"Status Code received: {response.status_code}")
 
-    # Fallback/Default live sync placeholder if external portal blocks connection
-    if not scraped_properties:
-        print("Using verified active sync structure for Porbandar region.")
-    
+        if response.status_code == 200:
+            # Search for property blocks using regex patterns
+            text_data = response.text
+            matches = re.findall(r'(?i)(porbandar[^<>\n\r]{15,180})', text_data)
+            
+            for idx, match in enumerate(set(matches)):
+                clean_txt = re.sub(r'\s+', ' ', match).strip()
+                prop_id = f"porb-live-{abs(hash(clean_txt)) % 100000}"
+                
+                property_item = {
+                    "id": prop_id,
+                    "title": f"Auction Notice: {clean_txt[:70]}...",
+                    "bank": "Scheduled Bank E-Auction",
+                    "location": "Porbandar, Gujarat",
+                    "price": "See Bank Official Notice",
+                    "date": "Active Notice",
+                    "details": clean_txt
+                }
+                scraped_properties.append(property_item)
+                
+    except Exception as e:
+        print(f"Connection exception: {e}")
+
     return scraped_properties
 
 def main():
-    print("Starting robust automated Porbandar data sync...")
+    print("Starting automated Porbandar synchronization...")
     existing_data = load_existing_data()
     
-    # Optional: Clear old demo data if any exists and keep clean state
+    # Clean any old test records if present
     existing_data = [item for item in existing_data if not item.get('id', '').startswith('demo-')]
 
     new_properties = fetch_porbandar_auctions()
     added_count = 0
-
     existing_ids = {item.get('id') for item in existing_data}
 
     for prop in new_properties:
@@ -97,7 +81,7 @@ def main():
             added_count += 1
 
     save_data(existing_data)
-    print(f"Sync finished successfully. Total properties in database: {len(existing_data)}. Newly added: {added_count}")
+    print(f"Sync completed. Total properties stored: {len(existing_data)}. Newly added: {added_count}")
 
 if __name__ == '__main__':
     main()
