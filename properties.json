@@ -1,1 +1,30 @@
-
+[
+  {
+    "id": "PRB-BANK-001",
+    "year": 2026,
+    "status": "Upcoming",
+    "title_gu": "રેસિડેન્શિયલ મકાન / ઘર",
+    "property_area": "Chhaya Main Road, Porbandar",
+    "bank_name": "State Bank of India (SBI)",
+    "bank_branch": "SBI MG Road Branch (Lalit Mansion)",
+    "price": "₹ 22,00,000",
+    "auction_date": "15-11-2026",
+    "map_link": "https://maps.google.com/?q=Chhaya+Main+Road+Porbandar",
+    "image_url": "https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=500",
+    "notice_url": "#"
+  },
+  {
+    "id": "PRB-BANK-002",
+    "year": 2025,
+    "status": "Expired",
+    "title_gu": "કોમર્શિયલ દુકાન / Shop",
+    "property_area": "MG Road, Porbandar",
+    "bank_name": "Bank of Baroda (BOB)",
+    "bank_branch": "BOB Main Branch (Station Road)",
+    "price": "₹ 14,50,000",
+    "auction_date": "20-08-2025",
+    "map_link": "https://maps.google.com/?q=MG+Road+Porbandar",
+    "image_url": "https://images.unsplash.com/photo-1582037928769-181f2644ecb7?w=500",
+    "notice_url": "#"
+  }
+]
