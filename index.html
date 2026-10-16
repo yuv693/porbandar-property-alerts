@@ -142,7 +142,7 @@
         <!-- Built-in Gemini Chatbox -->
         <div class="chat-box">
             <div id="chatMessages" class="chat-messages">
-                <div class="msg-gemini">👋 Namaste! Upar key save karke button dabao, report yahin ban jayegi.</div>
+                <div class="msg-gemini">👋 Namaste! Key Save karke button dabao, report yahin ban jayegi.</div>
             </div>
             <div class="input-area">
                 <input type="text" id="customInput" placeholder="Sawal poocho..." onkeypress="if(event.key==='Enter') sendCustomMessage()">
@@ -163,9 +163,9 @@
             const key = document.getElementById("userApiKey").value.trim();
             if(key) {
                 localStorage.setItem("my_gemini_key", key);
-                alert("✅ Key Save Ho Gayi!");
+                alert("✅ API Key Saved!");
             } else {
-                alert("⚠️ Pehle API Key enter karein!");
+                alert("⚠️ Pehle API Key daalo!");
             }
         }
 
@@ -212,38 +212,49 @@ https://maps.google.com/?q=Porbandar
             let API_KEY = document.getElementById("userApiKey").value.trim() || localStorage.getItem("my_gemini_key");
 
             if (!API_KEY) {
-                appendMessage("Gemini", "⚠️ Pehle upar Apni API Key paste karke 'Save Key' par click karein!");
+                appendMessage("Gemini", "⚠️ Pehle upar API Key save karein!");
                 return;
             }
 
             appendMessage("Gemini", "Generating Gujarati Report...");
 
-            try {
-                // Updated Endpoint for Gemini API
-                const response = await fetch(`https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=${API_KEY}`, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        contents: [{ parts: [{ text: promptText }] }]
-                    })
-                });
+            // Multi-model Auto Fallback System
+            const models = [
+                "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent",
+                "https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent",
+                "https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent"
+            ];
 
-                const data = await response.json();
-                const box = document.getElementById("chatMessages");
-                box.removeChild(box.lastChild);
+            let success = false;
 
-                if(data.candidates && data.candidates[0] && data.candidates[0].content.parts[0].text) {
-                    appendMessage("Gemini", data.candidates[0].content.parts[0].text);
-                } else if(data.error) {
-                    appendMessage("Gemini", "❌ API Error: " + data.error.message);
-                } else {
-                    appendMessage("Gemini", "❌ Error getting response from AI.");
+            for (let url of models) {
+                try {
+                    const response = await fetch(`${url}?key=${API_KEY}`, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            contents: [{ parts: [{ text: promptText }] }]
+                        })
+                    });
+
+                    const data = await response.json();
+
+                    if (data.candidates && data.candidates[0] && data.candidates[0].content.parts[0].text) {
+                        const box = document.getElementById("chatMessages");
+                        box.removeChild(box.lastChild);
+                        appendMessage("Gemini", data.candidates[0].content.parts[0].text);
+                        success = true;
+                        break;
+                    }
+                } catch (err) {
+                    console.error("Trying next model due to error:", err);
                 }
-            } catch (err) {
-                console.error(err);
+            }
+
+            if (!success) {
                 const box = document.getElementById("chatMessages");
                 box.removeChild(box.lastChild);
-                appendMessage("Gemini", "❌ Connection Error! Please try again.");
+                appendMessage("Gemini", "❌ Error connecting to Gemini. Please check if your API Key is active.");
             }
         }
     </script>
