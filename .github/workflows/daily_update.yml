@@ -21,8 +21,7 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install playwright beautifulsoup4
-        playwright install chromium
+        pip install requests beautifulsoup4
 
     - name: Run Scraper
       run: python scraper.py
@@ -34,5 +33,5 @@ jobs:
         git config --global user.name "github-actions[bot]"
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
         git add properties.json
-        git commit -m "Auto-update real bank auction data via Playwright" || exit 0
+        git commit -m "Auto-update real bank auction data" || exit 0
         git push
