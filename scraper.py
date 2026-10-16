@@ -1,7 +1,7 @@
 import json
 import os
-import re
-import requests
+from bs4 import BeautifulSoup
+from playwright.sync_api import sync_playwright
 
 JSON_FILE = 'properties.json'
 
@@ -19,58 +19,62 @@ def save_data(data):
     with open(JSON_FILE, 'w', encoding='utf-8') as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
 
-def fetch_porbandar_auctions():
+def fetch_real_bank_auctions():
     scraped_properties = []
-    
-    # Advanced headers to mimic real user browser
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
-        'Accept-Language': 'en-US,en;q=0.5',
-        'Connection': 'keep-alive',
-        'Upgrade-Insecure-Requests': '1'
-    }
+    target_url = "https://www.bankauctions.in/search/?q=porbandar"
 
-    url = "https://www.bankauctions.in/search/?q=porbandar"
-
-    try:
-        print(f"Connecting to target portal for Porbandar...")
-        response = requests.get(url, headers=headers, timeout=25)
-        print(f"Status Code received: {response.status_code}")
-
-        if response.status_code == 200:
-            # Search for property blocks using regex patterns
-            text_data = response.text
-            matches = re.findall(r'(?i)(porbandar[^<>\n\r]{15,180})', text_data)
+    print("Launching headless browser to bypass security and fetch real data...")
+    with sync_playwright() as p:
+        browser = p.chromium.launch(headless=True)
+        page = browser.new_page(user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36")
+        
+        try:
+            page.goto(target_url, timeout=40000)
+            page.wait_for_timeout(5000) # Wait for JS to render content
             
-            for idx, match in enumerate(set(matches)):
-                clean_txt = re.sub(r'\s+', ' ', match).strip()
-                prop_id = f"porb-live-{abs(hash(clean_txt)) % 100000}"
-                
-                property_item = {
-                    "id": prop_id,
-                    "title": f"Auction Notice: {clean_txt[:70]}...",
-                    "bank": "Scheduled Bank E-Auction",
-                    "location": "Porbandar, Gujarat",
-                    "price": "See Bank Official Notice",
-                    "date": "Active Notice",
-                    "details": clean_txt
-                }
-                scraped_properties.append(property_item)
-                
-    except Exception as e:
-        print(f"Connection exception: {e}")
+            html_content = page.content()
+            soup = BeautifulSoup(html_content, 'html.parser')
+            
+            # Find property cards or listing blocks
+            cards = soup.find_all(['div', 'tr', 'li'], class_=lambda x: x and ('property' in x.lower() or 'auction' in x.lower() or 'item' in x.lower()))
+            print(f"Found {len(cards)} elements on target page.")
+
+            for card in cards:
+                text_content = card.get_text(separator=' ', strip=True)
+                if 'porbandar' in text_content.lower():
+                    title_elem = card.find(['h2', 'h3', 'h4', 'a'])
+                    title = title_elem.get_text(strip=True) if title_elem else "Bank e-Auction Property"
+                    
+                    prop_id = f"porb-real-{abs(hash(title)) % 100000}"
+                    
+                    property_item = {
+                        "id": prop_id,
+                        "title": title[:100],
+                        "bank": "Scheduled Bank Portal",
+                        "location": "Porbandar, Gujarat",
+                        "price": "Check Official Bank Notice",
+                        "date": "Live Auction",
+                        "details": text_content[:250] + "..."
+                    }
+                    
+                    if not any(p['id'] == prop_id for p in scraped_properties):
+                        scraped_properties.append(property_item)
+                        
+        except Exception as e:
+            print(f"Playwright navigation error: {e}")
+        finally:
+            browser.close()
 
     return scraped_properties
 
 def main():
-    print("Starting automated Porbandar synchronization...")
+    print("Starting real automated sync for Porbandar...")
     existing_data = load_existing_data()
     
-    # Clean any old test records if present
+    # Clean any old test records if any
     existing_data = [item for item in existing_data if not item.get('id', '').startswith('demo-')]
 
-    new_properties = fetch_porbandar_auctions()
+    new_properties = fetch_real_bank_auctions()
     added_count = 0
     existing_ids = {item.get('id') for item in existing_data}
 
@@ -81,7 +85,7 @@ def main():
             added_count += 1
 
     save_data(existing_data)
-    print(f"Sync completed. Total properties stored: {len(existing_data)}. Newly added: {added_count}")
+    print(f"Sync complete. Total real properties: {len(existing_data)}. Newly added: {added_count}")
 
 if __name__ == '__main__':
     main()
