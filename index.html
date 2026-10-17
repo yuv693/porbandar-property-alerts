@@ -163,7 +163,7 @@
             const key = document.getElementById("userApiKey").value.trim();
             if(key) {
                 localStorage.setItem("my_gemini_key", key);
-                alert("✅ API Key Saved!");
+                alert("✅ API Key Saved Successfully!");
             } else {
                 alert("⚠️ Pehle API Key daalo!");
             }
@@ -218,18 +218,16 @@ https://maps.google.com/?q=Porbandar
 
             appendMessage("Gemini", "Generating Gujarati Report...");
 
-            // Multi-model Auto Fallback System
-            const models = [
-                "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent",
-                "https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent",
-                "https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent"
+            const endpoints = [
+                "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent",
+                "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent"
             ];
 
             let success = false;
 
-            for (let url of models) {
+            for (let endpoint of endpoints) {
                 try {
-                    const response = await fetch(`${url}?key=${API_KEY}`, {
+                    const response = await fetch(`${endpoint}?key=${API_KEY}`, {
                         method: "POST",
                         headers: { "Content-Type": "application/json" },
                         body: JSON.stringify({
@@ -247,14 +245,14 @@ https://maps.google.com/?q=Porbandar
                         break;
                     }
                 } catch (err) {
-                    console.error("Trying next model due to error:", err);
+                    console.error("Endpoint Error:", err);
                 }
             }
 
             if (!success) {
                 const box = document.getElementById("chatMessages");
                 box.removeChild(box.lastChild);
-                appendMessage("Gemini", "❌ Error connecting to Gemini. Please check if your API Key is active.");
+                appendMessage("Gemini", "❌ Nayi API Key banayein! Purani key revoke ho chuki hai. AI Studio me Create Key click karke nayi key paste karein.");
             }
         }
     </script>
