@@ -12,8 +12,12 @@
         .section-title { font-size: 14px; font-weight: bold; color: #1a73e8; margin-bottom: 8px; }
         textarea { width: 100%; height: 90px; padding: 10px; border: 1px solid #ccc; border-radius: 8px; font-size: 13px; box-sizing: border-box; outline: none; resize: none; font-family: inherit; margin-top: 5px; }
         .btn-blue { background-color: #1a73e8; color: white; border: none; padding: 12px; font-size: 14px; font-weight: bold; border-radius: 8px; cursor: pointer; width: 100%; margin-top: 8px; }
-        .btn-green { background-color: #28a745; color: white; border: none; padding: 12px; font-size: 14px; font-weight: bold; border-radius: 8px; cursor: pointer; width: 100%; margin-top: 8px; display: none; }
+        .btn-green { background-color: #28a745; color: white; border: none; padding: 10px; font-size: 13px; font-weight: bold; border-radius: 8px; cursor: pointer; width: 100%; margin-top: 8px; }
         .btn-gemini { background-color: #0d6efd; color: white; border: none; padding: 12px; font-size: 14px; font-weight: bold; border-radius: 8px; text-decoration: none; display: block; margin-top: 8px; text-align: center; display: none; }
+        
+        /* Separate Property Cards */
+        .property-card { background: #fff; border: 1px solid #28a745; padding: 12px; border-radius: 8px; margin-top: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .property-text { font-size: 13px; white-space: pre-wrap; background: #f9f9f9; padding: 8px; border-radius: 5px; border: 1px solid #eee; margin-bottom: 8px; max-height: 150px; overflow-y: auto; }
     </style>
 </head>
 <body>
@@ -21,36 +25,32 @@
     <div class="container">
         <h2>Porbandar Bank Auction</h2>
 
-        <!-- BOX 1: MANUAL NOTICE CONVERTER -->
+        <!-- BOX 1: AUTO SEARCH PROMPT -->
         <div class="box-section">
-            <div class="section-title">1️⃣ Notice Text Se Report Banao</div>
-            <textarea id="rawNotice" placeholder="Pura notice text ya details yahan paste karo..."></textarea>
-            <button class="btn-blue" onclick="prepareManualPrompt()">✨ Generate Complete Prompt</button>
-            
-            <div id="manualResultBox" style="display:none; margin-top: 10px;">
-                <textarea id="manualFinalPrompt" readonly></textarea>
-                <button class="btn-green" id="manualCopyBtn" onclick="copyPrompt('manualFinalPrompt', 'manualGeminiBtn')">📋 Copy Prompt</button>
-                <a href="https://gemini.google.com" target="_blank" class="btn-gemini" id="manualGeminiBtn">🌐 Open Gemini & Paste</a>
-            </div>
-        </div>
-
-        <!-- BOX 2: AUTO SEARCH PORBANDAR AUCTIONS -->
-        <div class="box-section">
-            <div class="section-title">2️⃣ Porbandar Live Auctions Search Karo</div>
-            <p style="font-size: 12px; color: #666; margin: 0 0 5px 0;">Bank auction property details dhoondo. Location: Porbandar. Bank: Koi bhi bank. Property type: Sabhi.</p>
+            <div class="section-title">1️⃣ Gemini Se Live Search Prompt Banao</div>
             <button class="btn-blue" onclick="prepareSearchPrompt()">🔍 Create Search Prompt</button>
 
             <div id="searchResultBox" style="display:none; margin-top: 10px;">
                 <textarea id="searchFinalPrompt" readonly></textarea>
-                <button class="btn-green" id="searchCopyBtn" onclick="copyPrompt('searchFinalPrompt', 'searchGeminiBtn')">📋 Copy Search Prompt</button>
+                <button class="btn-green" onclick="copyPrompt('searchFinalPrompt', 'searchGeminiBtn')">📋 Copy Search Prompt</button>
                 <a href="https://gemini.google.com" target="_blank" class="btn-gemini" id="searchGeminiBtn">🌐 Open Gemini & Search</a>
             </div>
+        </div>
+
+        <!-- BOX 2: SEPARATE BULK DETAILS INTO INDIVIDUAL CARDS -->
+        <div class="box-section">
+            <div class="section-title">2️⃣ Ek Sath Aayi Details Yahan Paste Karo (Alag-Alag Karne Ke Liye)</div>
+            <textarea id="bulkInput" placeholder="Gemini ka lamba jawab yahan paste karo jisme sabhi properties ek sath hain..."></textarea>
+            <button class="btn-blue" onclick="splitProperties()">✂️ Alag-Alag Property Me Todo</button>
+            
+            <!-- Result Separate Cards Container -->
+            <div id="cardsContainer" style="margin-top: 15px;"></div>
         </div>
 
     </div>
 
     <script>
-        const GUJARATI_FORMAT = `Aapko strictly isi Gujarati format me report taiyar karni hai:
+        const GUJARATI_FORMAT = `Aapko har ek property ki report strictly isi Gujarati format me deni hai:
 
 🚨 પોરબંદર બેંક હરાજી (SARFAESI Auction Notice) 🚨
 📍 મિલકત વિગત: [Details]
@@ -63,39 +63,92 @@
 ⚠️ ખાસ નોંધ: આ માહિતી માત્ર જાણકારી માટે છે. બોલી લગાવતા પહેલા બેંક શાખાનો સંપર્ક કરી અધિકૃત નોટિસ ચકાસી લેવી.
 📲 વધુ નવી હરાજીની માહિતી માટે અમારા વોટ્સએપ ગ્રુપમાં જોડાઓ: [WhatsApp Group Link]`;
 
-        function prepareManualPrompt() {
-            const rawText = document.getElementById("rawNotice").value.trim();
-            if(!rawText) {
-                alert("⚠️ Pehle bank notice ka text paste karo!");
-                return;
-            }
-
-            const prompt = `Aapko niche diye gaye Bank Notice me se details nikal kar is format me Gujarati report banani hai:\n\n${GUJARATI_FORMAT}\n\n--- RAW NOTICE ---\n${rawText}`;
-            
-            document.getElementById("manualFinalPrompt").value = prompt;
-            document.getElementById("manualResultBox").style.display = "block";
-            document.getElementById("manualCopyBtn").style.display = "block";
-        }
-
         function prepareSearchPrompt() {
             const prompt = `Bank auction property details dhoondo. Location: Porbandar, Gujarat. Bank: Koi bhi bank (SBI, BOB, PNB, Canara, Union Bank, etc.). Property type: Sabhi (Residential, Commercial, Industrial, Agricultural land). Current official SARFAESI auction notices, reserve price, EMD, auction date aur official source links do.
 
-Report ko strictly is Gujarati format me likho:
+Har ek property ki report ko strictly is Gujarati format me likho aur alag-alag sections me dikhao:
 ${GUJARATI_FORMAT}`;
 
             document.getElementById("searchFinalPrompt").value = prompt;
             document.getElementById("searchResultBox").style.display = "block";
-            document.getElementById("searchCopyBtn").style.display = "block";
+            document.getElementById("searchGeminiBtn").style.display = "block";
         }
 
         function copyPrompt(textareaId, geminiBtnId) {
             const textarea = document.getElementById(textareaId);
             textarea.select();
             document.execCommand("copy");
+            alert("✅ Prompt Copied! Ab Gemini khol kar paste kar do.");
+        }
+
+        // Function to split bulk text into separate property cards
+        function splitProperties() {
+            const bulkText = document.getElementById("bulkInput").value.trim();
+            const container = document.getElementById("cardsContainer");
+            container.innerHTML = ""; // Clear old cards
+
+            if(!bulkText) {
+                alert("⚠️ Pehle lamba text yahan paste karo!");
+                return;
+            }
+
+            // Split by emojis or common auction headers like 🚨 or 📍 or Bank Name
+            let parts = bulkText.split(/🚨|પોરબંદર બેંક હરાજી/g);
             
-            // Show corresponding Gemini open button
-            document.getElementById(geminiBtnId).style.display = "block";
-            alert("✅ Prompt Copied! Ab niche wale blue button se Gemini khol kar paste kar do.");
+            let count = 0;
+            parts.forEach((part, index) => {
+                let cleaned = part.trim();
+                if(cleaned.length > 30) { // Valid property block
+                    count++;
+                    let fullNoticeText = "🚨 પોરબંદર બેંક હરાજી " + cleaned;
+
+                    let card = document.createElement("div");
+                    card.className = "property-card";
+                    card.innerHTML = `
+                        <div style="font-size: 12px; font-weight: bold; color: #28a745; margin-bottom: 5px;">Property #${count}</div>
+                        <div class="property-text" id="prop_${count}">${fullNoticeText}</div>
+                        <button class="btn-green" onclick="copySpecificProperty('prop_${count}')">📋 Copy Property #${count}</button>
+                    `;
+                    container.appendChild(card);
+                }
+            });
+
+            if(count === 0) {
+                // If standard split didn't work well, split by double line breaks
+                parts = bulkText.split(/\n\s*\n/);
+                parts.forEach((part, index) => {
+                    let cleaned = part.trim();
+                    if(cleaned.length > 20) {
+                        count++;
+                        let card = document.createElement("div");
+                        card.className = "property-card";
+                        card.innerHTML = `
+                            <div style="font-size: 12px; font-weight: bold; color: #28a745; margin-bottom: 5px;">Property #${count}</div>
+                            <div class="property-text" id="prop_alt_${count}">${cleaned}</div>
+                            <button class="btn-green" onclick="copySpecificProperty('prop_alt_${count}')">📋 Copy Property #${count}</button>
+                        `;
+                        container.appendChild(card);
+                    }
+                });
+            }
+
+            if(count === 0) {
+                alert("⚠️ Alag-alag karne me dikkat aayi. Kripya check karein ki text theek se paste hua hai.");
+            } else {
+                alert(`✅ Total ${count} properties alag-alag ho gayi hain! Ab aap har ek ko alag copy kar sakte ho.`);
+            }
+        }
+
+        // Copy individual property text
+        function copySpecificProperty(elementId) {
+            const textElement = document.getElementById(elementId);
+            const range = document.createRange();
+            range.selectNode(textElement);
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
+            document.execCommand("copy");
+            window.getSelection().removeAllRanges();
+            alert("✅ Yeh Property Copy Ho Gayi! Ab WhatsApp par paste kar do.");
         }
     </script>
 
