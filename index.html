@@ -5,123 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Porbandar SARFAESI Auction Helper</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f6f9;
-            margin: 0;
-            padding: 20px;
-            text-align: center;
-        }
-        .container {
-            max-width: 450px;
-            margin: 30px auto;
-            background: #ffffff;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-        }
-        h2 {
-            color: #333;
-            margin-bottom: 20px;
-        }
-        .btn-auction {
-            background-color: #25D366;
-            color: white;
-            border: none;
-            padding: 15px 20px;
-            font-size: 16px;
-            font-weight: bold;
-            border-radius: 10px;
-            cursor: pointer;
-            width: 100%;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-            transition: 0.2s;
-        }
-        .btn-auction:hover {
-            background-color: #1ebe57;
-        }
-        .chat-box {
-            margin-top: 20px;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            background: #fafafa;
-            text-align: left;
-            display: flex;
-            flex-direction: column;
-            height: 380px;
-        }
-        .chat-messages {
-            flex: 1;
-            padding: 12px;
-            overflow-y: auto;
-            font-size: 14px;
-            white-space: pre-wrap;
-        }
-        .msg-user {
-            background: #0d6efd;
-            color: #fff;
-            padding: 8px 12px;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            align-self: flex-end;
-            max-width: 80%;
-        }
-        .msg-ai {
-            background: #e9ecef;
-            color: #212529;
-            padding: 10px;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            align-self: flex-start;
-            max-width: 90%;
-            font-family: monospace, sans-serif;
-        }
-        .input-area {
-            display: flex;
-            border-top: 1px solid #ddd;
-            padding: 8px;
-            background: #fff;
-            border-bottom-left-radius: 10px;
-            border-bottom-right-radius: 10px;
-        }
-        .input-area input {
-            flex: 1;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            outline: none;
-        }
-        .input-area button {
-            background: #0d6efd;
-            color: white;
-            border: none;
-            padding: 8px 14px;
-            margin-left: 6px;
-            border-radius: 6px;
-            cursor: pointer;
-        }
-        .key-input-box {
-            margin-bottom: 15px;
-            display: flex;
-            gap: 5px;
-        }
-        .key-input-box input {
-            flex: 1;
-            padding: 8px;
-            font-size: 12px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-        }
-        .key-input-box button {
-            background: #10a37f;
-            color: white;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 6px;
-            font-size: 12px;
-            cursor: pointer;
-            font-weight: bold;
-        }
+        body { font-family: Arial, sans-serif; background-color: #f4f6f9; margin: 0; padding: 20px; text-align: center; }
+        .container { max-width: 450px; margin: 30px auto; background: #ffffff; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        h2 { color: #333; margin-bottom: 20px; }
+        .btn-auction { background-color: #25D366; color: white; border: none; padding: 15px 20px; font-size: 16px; font-weight: bold; border-radius: 10px; cursor: pointer; width: 100%; box-shadow: 0 4px 8px rgba(0,0,0,0.15); }
+        .chat-box { margin-top: 20px; border: 1px solid #ddd; border-radius: 10px; background: #fafafa; text-align: left; display: flex; flex-direction: column; height: 380px; }
+        .chat-messages { flex: 1; padding: 12px; overflow-y: auto; font-size: 14px; white-space: pre-wrap; }
+        .msg-user { background: #0d6efd; color: #fff; padding: 8px 12px; border-radius: 8px; margin-bottom: 10px; align-self: flex-end; max-width: 80%; }
+        .msg-ai { background: #e9ecef; color: #212529; padding: 10px; border-radius: 8px; margin-bottom: 10px; align-self: flex-start; max-width: 90%; font-family: monospace, sans-serif; }
+        .input-area { display: flex; border-top: 1px solid #ddd; padding: 8px; background: #fff; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px; }
+        .input-area input { flex: 1; padding: 8px; border: 1px solid #ccc; border-radius: 6px; outline: none; }
+        .input-area button { background: #0d6efd; color: white; border: none; padding: 8px 14px; margin-left: 6px; border-radius: 6px; cursor: pointer; }
+        .key-input-box { margin-bottom: 15px; display: flex; gap: 5px; }
+        .key-input-box input { flex: 1; padding: 8px; font-size: 12px; border: 1px solid #ccc; border-radius: 6px; }
+        .key-input-box button { background: #10a37f; color: white; border: none; padding: 8px 12px; border-radius: 6px; font-size: 12px; cursor: pointer; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -129,21 +26,18 @@
     <div class="container">
         <h2>Porbandar Bank Auction</h2>
 
-        <!-- OpenAI Key Saver Box -->
         <div class="key-input-box">
-            <input type="password" id="userApiKey" placeholder="Paste OpenAI (ChatGPT) API Key (sk-...)...">
+            <input type="password" id="userApiKey" placeholder="Paste API Key Here...">
             <button onclick="saveKey()">Save Key</button>
         </div>
         
-        <!-- Quick Action Button -->
         <button class="btn-auction" onclick="getAuctionReport()">
             📱 Get WhatsApp Auction Report
         </button>
 
-        <!-- Built-in ChatGPT Chatbox -->
         <div class="chat-box">
             <div id="chatMessages" class="chat-messages">
-                <div class="msg-ai">👋 Namaste! OpenAI Key Save karke button dabao, report ChatGPT direct Gujarati format me yahin bana dega.</div>
+                <div class="msg-ai">👋 Namaste! Sahi Key Save karke button dabao, report yahin ban jayegi.</div>
             </div>
             <div class="input-area">
                 <input type="text" id="customInput" placeholder="Sawal poocho..." onkeypress="if(event.key==='Enter') sendCustomMessage()">
@@ -154,7 +48,7 @@
 
     <script>
         window.onload = function() {
-            const savedKey = localStorage.getItem("my_openai_key");
+            const savedKey = localStorage.getItem("my_active_key");
             if(savedKey) {
                 document.getElementById("userApiKey").value = savedKey;
             }
@@ -163,10 +57,10 @@
         function saveKey() {
             const key = document.getElementById("userApiKey").value.trim();
             if(key) {
-                localStorage.setItem("my_openai_key", key);
-                alert("✅ OpenAI API Key Saved Successfully!");
+                localStorage.setItem("my_active_key", key);
+                alert("✅ API Key Saved!");
             } else {
-                alert("⚠️ Pehle OpenAI Key enter karein!");
+                alert("⚠️ Pehle API Key enter karein!");
             }
         }
 
@@ -188,7 +82,7 @@ https://maps.google.com/?q=Porbandar
         function getAuctionReport() {
             const userQuery = "Porbandar active bank auction report do with Google Maps and notice links in Gujarati format";
             appendMessage("User", "Porbandar Auction Report Banao");
-            callChatGPTAPI(userQuery);
+            callAIAPI(userQuery);
         }
 
         function sendCustomMessage() {
@@ -197,7 +91,7 @@ https://maps.google.com/?q=Porbandar
             if(!text) return;
             appendMessage("User", text);
             input.value = "";
-            callChatGPTAPI(text);
+            callAIAPI(text);
         }
 
         function appendMessage(sender, text) {
@@ -209,49 +103,74 @@ https://maps.google.com/?q=Porbandar
             box.scrollTop = box.scrollHeight;
         }
 
-        async function callChatGPTAPI(userPrompt) {
-            let API_KEY = document.getElementById("userApiKey").value.trim() || localStorage.getItem("my_openai_key");
+        async function callAIAPI(userPrompt) {
+            let API_KEY = document.getElementById("userApiKey").value.trim() || localStorage.getItem("my_active_key");
 
             if (!API_KEY) {
-                appendMessage("AI", "⚠️ Pehle upar Apni OpenAI API Key (sk-...) paste karke 'Save Key' par click karein!");
+                appendMessage("AI", "⚠️ Pehle upar API Key paste karke 'Save Key' par click karein!");
                 return;
             }
 
-            appendMessage("AI", "ChatGPT is Generating Gujarati Report...");
+            appendMessage("AI", "Generating Gujarati Report...");
 
-            try {
-                const response = await fetch("https://api.openai.com/v1/chat/completions", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "Authorization": `Bearer ${API_KEY}`
-                    },
-                    body: JSON.stringify({
-                        model: "gpt-4o-mini",
-                        messages: [
-                            { role: "system", content: SYSTEM_PROMPT },
-                            { role: "user", content: userPrompt }
-                        ],
-                        temperature: 0.7
-                    })
-                });
+            // Check if key is OpenAI or Gemini
+            if(API_KEY.startsWith("sk-")) {
+                // OpenAI API Call
+                try {
+                    const response = await fetch("https://api.openai.com/v1/chat/completions", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            "Authorization": `Bearer ${API_KEY}`
+                        },
+                        body: JSON.stringify({
+                            model: "gpt-4o-mini",
+                            messages: [
+                                { role: "system", content: SYSTEM_PROMPT },
+                                { role: "user", content: userPrompt }
+                            ]
+                        })
+                    });
 
-                const data = await response.json();
-                const box = document.getElementById("chatMessages");
-                box.removeChild(box.lastChild);
+                    const data = await response.json();
+                    const box = document.getElementById("chatMessages");
+                    box.removeChild(box.lastChild);
 
-                if (data.choices && data.choices[0] && data.choices[0].message) {
-                    appendMessage("AI", data.choices[0].message.content);
-                } else if (data.error) {
-                    appendMessage("AI", "❌ ChatGPT Error: " + data.error.message);
-                } else {
-                    appendMessage("AI", "❌ Error getting response from OpenAI.");
+                    if (data.choices && data.choices[0]) {
+                        appendMessage("AI", data.choices[0].message.content);
+                    } else {
+                        appendMessage("AI", "❌ Error: " + (data.error ? data.error.message : "OpenAI issue. Check Key balance."));
+                    }
+                } catch (err) {
+                    const box = document.getElementById("chatMessages");
+                    box.removeChild(box.lastChild);
+                    appendMessage("AI", "❌ Network Error! Please check internet/key.");
                 }
-            } catch (err) {
-                console.error(err);
-                const box = document.getElementById("chatMessages");
-                box.removeChild(box.lastChild);
-                appendMessage("AI", "❌ Network Error! Please check your internet connection.");
+            } else {
+                // Gemini API Call
+                try {
+                    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                            contents: [{ parts: [{ text: SYSTEM_PROMPT + "\n\nUser: " + userPrompt }] }]
+                        })
+                    });
+
+                    const data = await response.json();
+                    const box = document.getElementById("chatMessages");
+                    box.removeChild(box.lastChild);
+
+                    if (data.candidates && data.candidates[0]) {
+                        appendMessage("AI", data.candidates[0].content.parts[0].text);
+                    } else {
+                        appendMessage("AI", "❌ Error: " + (data.error ? data.error.message : "Gemini Key Invalid"));
+                    }
+                } catch (err) {
+                    const box = document.getElementById("chatMessages");
+                    box.removeChild(box.lastChild);
+                    appendMessage("AI", "❌ Network Error! Check Key.");
+                }
             }
         }
     </script>
