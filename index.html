@@ -5,15 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Porbandar SARFAESI Auction Helper</title>
     <style>
-        body { font-family: Arial, sans-serif; background-color: #f4f6f9; margin: 0; padding: 20px; text-align: center; }
-        .container { max-width: 450px; margin: 30px auto; background: #ffffff; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        h2 { color: #333; margin-bottom: 20px; }
-        .btn-gemini { background-color: #1a73e8; color: white; border: none; padding: 15px 20px; font-size: 16px; font-weight: bold; border-radius: 10px; cursor: pointer; width: 100%; box-shadow: 0 4px 8px rgba(0,0,0,0.15); margin-bottom: 15px; text-decoration: none; display: block; box-sizing: border-box; }
-        .btn-gemini:hover { background-color: #1557b0; }
-        .btn-whatsapp { background-color: #25D366; color: white; border: none; padding: 15px 20px; font-size: 16px; font-weight: bold; border-radius: 10px; cursor: pointer; width: 100%; box-shadow: 0 4px 8px rgba(0,0,0,0.15); text-decoration: none; display: block; box-sizing: border-box; }
-        .box { background: #f8f9fa; border: 1px solid #ddd; padding: 15px; border-radius: 10px; text-align: left; margin-top: 15px; font-size: 14px; }
-        textarea { width: 100%; height: 100px; padding: 8px; border: 1px solid #ccc; border-radius: 6px; resize: none; margin-top: 8px; font-family: inherit; }
-        .copy-btn { background: #6c757d; color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-size: 12px; margin-top: 8px; width: 100%; }
+        body { font-family: Arial, sans-serif; background-color: #f4f6f9; margin: 0; padding: 15px; text-align: center; }
+        .container { max-width: 450px; margin: 20px auto; background: #ffffff; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        h2 { color: #333; margin-bottom: 15px; font-size: 20px; }
+        textarea { width: 100%; height: 110px; padding: 10px; border: 1px solid #ccc; border-radius: 8px; font-size: 13px; box-sizing: border-box; outline: none; resize: none; }
+        .btn-gen { background-color: #1a73e8; color: white; border: none; padding: 12px; font-size: 15px; font-weight: bold; border-radius: 8px; cursor: pointer; width: 100%; margin-top: 10px; }
+        .btn-gen:hover { background-color: #1557b0; }
+        .btn-copy { background-color: #28a745; color: white; border: none; padding: 12px; font-size: 15px; font-weight: bold; border-radius: 8px; cursor: pointer; width: 100%; margin-top: 10px; display: none; }
+        .btn-gemini { background-color: #0d6efd; color: white; border: none; padding: 12px; font-size: 15px; font-weight: bold; border-radius: 8px; text-decoration: none; display: block; margin-top: 10px; }
+        .instruction { font-size: 12px; color: #555; text-align: left; margin-bottom: 8px; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -21,39 +21,53 @@
     <div class="container">
         <h2>Porbandar Bank Auction</h2>
 
-        <!-- Step 1: Open Official Gemini -->
-        <a href="https://gemini.google.com" target="_blank" class="btn-gemini">
-            🌐 Open Google Gemini (Free Web)
-        </a>
+        <div class="instruction">1️⃣ Bank Notice Ka Text Yahan Paste Karo:</div>
+        <textarea id="rawNotice" placeholder="Pura notice text ya details yahan paste karo..."></textarea>
 
-        <!-- Step 2: Format & Copy Box -->
-        <div class="box">
-            <strong>📋 Gujarati Format (Copy karke Gemini me paste karein):</strong>
-            <textarea id="formatText" readonly>🚨 પોરબંદર બેંક હરાજી (SARFAESI Auction Notice) 🚨
-📍 મિલકત વિગત: 
-📍 સરનામું: પોરબંદર, ગુજરાત.
-🏦 બેંકનું નામ: 
-💰 રિઝર્વ પ્રાઇસ: ₹ 
-💵 ઈ.એમ.ડી. રકમ: ₹ 
-📅 હરાજી તારીખ: 
-📍 ગૂગલ મેપ લોકેશન: https://maps.google.com/?q=Porbandar
-⚠️ ખાસ નોંધ: આ માહિતી માત્ર જાણકારી માટે છે.</textarea>
-            <button class="copy-btn" onclick="copyFormat()">📋 Copy Format</button>
-        </div>
+        <button class="btn-gen" onclick="preparePrompt()">✨ Generate Complete Prompt</button>
 
-        <div style="margin-top: 20px;">
-            <a href="https://wa.me/?text=Porbandar%20Auction%20Report" target="_blank" class="btn-whatsapp">
-                📲 Share to WhatsApp
-            </a>
+        <div id="resultBox" style="display:none; margin-top: 15px;">
+            <div class="instruction">2️⃣ Complete Prompt Tayar Hai:</div>
+            <textarea id="finalPrompt" readonly></textarea>
+            <button class="btn-copy" id="copyBtn" onclick="copyPrompt()">📋 Copy Complete Prompt</button>
+            <a href="https://gemini.google.com" target="_blank" class="btn-gemini">🌐 Open Gemini & Paste</a>
         </div>
     </div>
 
     <script>
-        function copyFormat() {
-            const textarea = document.getElementById("formatText");
-            textarea.select();
+        function preparePrompt() {
+            const rawText = document.getElementById("rawNotice").value.trim();
+            if(!rawText) {
+                alert("⚠️ Pehle bank notice ka details/text paste karo!");
+                return;
+            }
+
+            const format = `Aapko niche diye gaye Bank Auction Raw Notice me se details nikal kar strictly isi Gujarati format me report taiyar karni hai:
+
+🚨 પોરબંદર બેંક હરાજી (SARFAESI Auction Notice) 🚨
+📍 મિલકત વિગત: [Details]
+📍 સરનામું: [Address], પોરબંદર, ગુજરાત.
+🏦 બેંકનું નામ: [Bank Name]
+💰 રિઝર્વ પ્રાઇસ (અંદાજિત રકમ): ₹ [Amount]/-
+💵 ઈ.એમ.ડી. રકમ: ₹ [Amount]/-
+📅 હરાજી તારીખ: [Date]
+📍 ગૂગલ મેપ લોકેશન જુઓ: https://maps.google.com/?q=Porbandar
+⚠️ ખાસ નોંધ: આ માહિતી માત્ર જાણકારી માટે છે. બોલી લગાવતા પહેલા બેંક શાખાનો સંપર્ક કરી અધિકૃત નોટિસ ચકાસી લેવી.
+📲 વધુ નવી હરાજીની માહિતી માટે અમારા વોટ્સએપ ગ્રુપમાં જોડાઓ: [WhatsApp Group Link]
+
+--- RAW BANK NOTICE DETAILS ---
+${rawText}`;
+
+            document.getElementById("finalPrompt").value = format;
+            document.getElementById("resultBox").style.display = "block";
+            document.getElementById("copyBtn").style.display = "block";
+        }
+
+        function copyPrompt() {
+            const finalPrompt = document.getElementById("finalPrompt");
+            finalPrompt.select();
             document.execCommand("copy");
-            alert("✅ Format Copied! Ab Gemini me paste karke report bana lo.");
+            alert("✅ Complete Prompt Copied! Ab Gemini khol kar paste kar do.");
         }
     </script>
 
