@@ -31,9 +31,9 @@
             💬 Join Our WhatsApp Group
         </a>
 
-        <!-- BOX 1: AUTO SEARCH PROMPT WITH MAPS LINK -->
+        <!-- BOX 1: AUTO SEARCH PROMPT (NO MAP LINK) -->
         <div class="box-section">
-            <div class="section-title">1️⃣ Live Search Prompt (Perfect Address Fix)</div>
+            <div class="section-title">1️⃣ Live Search Prompt (Clean Format)</div>
             <button class="btn-blue" onclick="prepareSearchPrompt()">🔍 Create Search Prompt</button>
 
             <div id="searchResultBox" style="display:none; margin-top: 10px;">
@@ -57,27 +57,28 @@
     <script>
         const WA_GROUP_LINK = "https://chat.whatsapp.com/BtELNQOZQ7iJtOhahvCU4M";
 
-        const GUJARATI_FORMAT = `Aapko har ek property ki report strictly isi Gujarati format me deni hai:
+        const GUJARATI_FORMAT = `Aapko har ek property ki report strictly isi clean Gujarati format me deni hai:
 
 🚨 પોરબંદર બેંક હરાજી (SARFAESI Auction Notice) 🚨
-📍 મિલકત વિગત: [Property Type & Description]
-🏦 બેંકનું નામ અને શાખા: [Bank Name, Branch Name]
-📍 બેંક શાખાનું સરનામું: [Complete Bank Branch Address]
-📍 મિલકતનું પૂરૂ સરનામું: [Exact Property House/Plot No, Society, Landmark, Area, Porbandar, Gujarat]
+
+📍 મિલકત વિગત: [Property Type & Details]
+📍 સંપૂર્ણ સરનામું: [Complete Property Address with House/Plot No, Building/Society, Area, Porbandar, Gujarat]
+🏦 બેંકનું નામ: [Bank Name]
 💰 રિઝર્વ પ્રાઇસ (અંદાજિત રકમ): ₹ [Amount]/-
 💵 ઈ.એમ.ડી. રકમ: ₹ [Amount]/-
 📅 હરાજી તારીખ: [Date]
-📍 ગૂગલ મેપ લોકેશન જુઓ: https://www.google.com/maps/search/?api=1&query=[Property EXACT Address including Area and Porbandar]
+
 ⚠️ ખાસ નોંધ: આ માહિતી માત્ર જાણકારી માટે છે. બોલી લગાવતા પહેલા બેંક શાખાનો સંપર્ક કરી અધિકૃત નોટિસ ચકાસી લેવી.
-📲 વધુ નવી હરાજીની માહિતી માટે અમારા વોટ્સએપ ગ્રુપમાં જોડાઓ: ${WA_GROUP_LINK}`;
+
+📲 વધુ નવી હરાજીની માહિતી માટે અમારા વોટ્સએપ ગ્રુપમાં જોડાઓ:
+${WA_GROUP_LINK}`;
 
         function prepareSearchPrompt() {
             const prompt = `Bank auction property details dhoondo. Location: Porbandar, Gujarat. Bank: SBI, BOB, PNB, Canara, Union Bank, HDFC, ICICI, etc.
 
-STRICT ADDRESS & MAP RULES:
-1. "બેંક શાખાનું સરનામું" me ONLY Bank ki Branch ka address likho.
-2. "મિલકતનું પૂરૂ સરનામું" (Property Address) ekdam EXACT hona chahiye (Plot/House/Flat No., Society/Building, Street/Landmark, Area Name, Porbandar, Gujarat 360575).
-3. "ગૂગલ મેપ લોકેશન જુઓ" URL me Property Address ke sare spaces ko '+' se replace karke complete working Google Maps link do. Bank address mix mat karo.
+IMPORTANT RULES:
+1. Google Maps ka koi bhi link ya URL BILKUL MAT DALO.
+2. Property Address ekdam FULL aur CLEAR likho (Flat/Plot No., Building/Society, Landmark, Area Name, Porbandar, Gujarat).
 
 Har ek property ki report ko strictly is Gujarati format me likho:
 ${GUJARATI_FORMAT}`;
@@ -91,7 +92,7 @@ ${GUJARATI_FORMAT}`;
             const textarea = document.getElementById(textareaId);
             textarea.select();
             document.execCommand("copy");
-            alert("✅ Perfect Prompt Copied! Ab Gemini me paste kar do.");
+            alert("✅ Clean Prompt Copied! Ab Gemini me paste kar do.");
         }
 
         function splitProperties() {
