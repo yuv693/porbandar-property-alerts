@@ -66,7 +66,7 @@
             align-self: flex-end;
             max-width: 80%;
         }
-        .msg-gemini {
+        .msg-ai {
             background: #e9ecef;
             color: #212529;
             padding: 10px;
@@ -113,13 +113,14 @@
             border-radius: 6px;
         }
         .key-input-box button {
-            background: #6c757d;
+            background: #10a37f;
             color: white;
             border: none;
             padding: 8px 12px;
             border-radius: 6px;
             font-size: 12px;
             cursor: pointer;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -128,9 +129,9 @@
     <div class="container">
         <h2>Porbandar Bank Auction</h2>
 
-        <!-- Local Key Saver Box -->
+        <!-- OpenAI Key Saver Box -->
         <div class="key-input-box">
-            <input type="text" id="userApiKey" placeholder="Paste Gemini API Key Here...">
+            <input type="password" id="userApiKey" placeholder="Paste OpenAI (ChatGPT) API Key (sk-...)...">
             <button onclick="saveKey()">Save Key</button>
         </div>
         
@@ -139,10 +140,10 @@
             📱 Get WhatsApp Auction Report
         </button>
 
-        <!-- Built-in Gemini Chatbox -->
+        <!-- Built-in ChatGPT Chatbox -->
         <div class="chat-box">
             <div id="chatMessages" class="chat-messages">
-                <div class="msg-gemini">👋 Namaste! Key Save karke button dabao, report yahin ban jayegi.</div>
+                <div class="msg-ai">👋 Namaste! OpenAI Key Save karke button dabao, report ChatGPT direct Gujarati format me yahin bana dega.</div>
             </div>
             <div class="input-area">
                 <input type="text" id="customInput" placeholder="Sawal poocho..." onkeypress="if(event.key==='Enter') sendCustomMessage()">
@@ -153,7 +154,7 @@
 
     <script>
         window.onload = function() {
-            const savedKey = localStorage.getItem("my_gemini_key");
+            const savedKey = localStorage.getItem("my_openai_key");
             if(savedKey) {
                 document.getElementById("userApiKey").value = savedKey;
             }
@@ -162,10 +163,10 @@
         function saveKey() {
             const key = document.getElementById("userApiKey").value.trim();
             if(key) {
-                localStorage.setItem("my_gemini_key", key);
-                alert("✅ API Key Saved Successfully!");
+                localStorage.setItem("my_openai_key", key);
+                alert("✅ OpenAI API Key Saved Successfully!");
             } else {
-                alert("⚠️ Pehle API Key enter karein!");
+                alert("⚠️ Pehle OpenAI Key enter karein!");
             }
         }
 
@@ -187,7 +188,7 @@ https://maps.google.com/?q=Porbandar
         function getAuctionReport() {
             const userQuery = "Porbandar active bank auction report do with Google Maps and notice links in Gujarati format";
             appendMessage("User", "Porbandar Auction Report Banao");
-            callGeminiAPI(SYSTEM_PROMPT + "\n\nUser Query: " + userQuery);
+            callChatGPTAPI(userQuery);
         }
 
         function sendCustomMessage() {
@@ -196,38 +197,42 @@ https://maps.google.com/?q=Porbandar
             if(!text) return;
             appendMessage("User", text);
             input.value = "";
-            callGeminiAPI(SYSTEM_PROMPT + "\n\nUser Query: " + text);
+            callChatGPTAPI(text);
         }
 
         function appendMessage(sender, text) {
             const box = document.getElementById("chatMessages");
             const div = document.createElement("div");
-            div.className = sender === "User" ? "msg-user" : "msg-gemini";
+            div.className = sender === "User" ? "msg-user" : "msg-ai";
             div.innerText = text;
             box.appendChild(div);
             box.scrollTop = box.scrollHeight;
         }
 
-        async function callGeminiAPI(promptText) {
-            let API_KEY = document.getElementById("userApiKey").value.trim() || localStorage.getItem("my_gemini_key");
+        async function callChatGPTAPI(userPrompt) {
+            let API_KEY = document.getElementById("userApiKey").value.trim() || localStorage.getItem("my_openai_key");
 
             if (!API_KEY) {
-                appendMessage("Gemini", "⚠️ Pehle upar API Key save karein!");
+                appendMessage("AI", "⚠️ Pehle upar Apni OpenAI API Key (sk-...) paste karke 'Save Key' par click karein!");
                 return;
             }
 
-            appendMessage("Gemini", "Generating Gujarati Report...");
+            appendMessage("AI", "ChatGPT is Generating Gujarati Report...");
 
             try {
-                const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`, {
+                const response = await fetch("https://api.openai.com/v1/chat/completions", {
                     method: "POST",
                     headers: {
-                        "Content-Type": "application/json"
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${API_KEY}`
                     },
                     body: JSON.stringify({
-                        contents: [{
-                            parts: [{ text: promptText }]
-                        }]
+                        model: "gpt-4o-mini",
+                        messages: [
+                            { role: "system", content: SYSTEM_PROMPT },
+                            { role: "user", content: userPrompt }
+                        ],
+                        temperature: 0.7
                     })
                 });
 
@@ -235,18 +240,18 @@ https://maps.google.com/?q=Porbandar
                 const box = document.getElementById("chatMessages");
                 box.removeChild(box.lastChild);
 
-                if (data.candidates && data.candidates[0] && data.candidates[0].content && data.candidates[0].content.parts[0].text) {
-                    appendMessage("Gemini", data.candidates[0].content.parts[0].text);
+                if (data.choices && data.choices[0] && data.choices[0].message) {
+                    appendMessage("AI", data.choices[0].message.content);
                 } else if (data.error) {
-                    appendMessage("Gemini", "❌ Google API Error: " + data.error.message);
+                    appendMessage("AI", "❌ ChatGPT Error: " + data.error.message);
                 } else {
-                    appendMessage("Gemini", "❌ Unknown API response structure.");
+                    appendMessage("AI", "❌ Error getting response from OpenAI.");
                 }
             } catch (err) {
                 console.error(err);
                 const box = document.getElementById("chatMessages");
                 box.removeChild(box.lastChild);
-                appendMessage("Gemini", "❌ Network Error: Please check your internet connection.");
+                appendMessage("AI", "❌ Network Error! Please check your internet connection.");
             }
         }
     </script>
