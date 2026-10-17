@@ -8,18 +8,12 @@
         body { font-family: Arial, sans-serif; background-color: #f4f6f9; margin: 0; padding: 20px; text-align: center; }
         .container { max-width: 450px; margin: 30px auto; background: #ffffff; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
         h2 { color: #333; margin-bottom: 20px; }
-        .btn-auction { background-color: #25D366; color: white; border: none; padding: 15px 20px; font-size: 16px; font-weight: bold; border-radius: 10px; cursor: pointer; width: 100%; box-shadow: 0 4px 8px rgba(0,0,0,0.15); }
-        .btn-auction:hover { background-color: #1ebe57; }
-        .chat-box { margin-top: 20px; border: 1px solid #ddd; border-radius: 10px; background: #fafafa; text-align: left; display: flex; flex-direction: column; height: 380px; }
-        .chat-messages { flex: 1; padding: 12px; overflow-y: auto; font-size: 14px; white-space: pre-wrap; }
-        .msg-user { background: #0d6efd; color: #fff; padding: 8px 12px; border-radius: 8px; margin-bottom: 10px; align-self: flex-end; max-width: 80%; }
-        .msg-ai { background: #e9ecef; color: #212529; padding: 10px; border-radius: 8px; margin-bottom: 10px; align-self: flex-start; max-width: 90%; font-family: monospace, sans-serif; }
-        .input-area { display: flex; border-top: 1px solid #ddd; padding: 8px; background: #fff; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px; }
-        .input-area input { flex: 1; padding: 8px; border: 1px solid #ccc; border-radius: 6px; outline: none; }
-        .input-area button { background: #0d6efd; color: white; border: none; padding: 8px 14px; margin-left: 6px; border-radius: 6px; cursor: pointer; }
-        .key-input-box { margin-bottom: 15px; display: flex; gap: 5px; }
-        .key-input-box input { flex: 1; padding: 8px; font-size: 12px; border: 1px solid #ccc; border-radius: 6px; }
-        .key-input-box button { background: #10a37f; color: white; border: none; padding: 8px 12px; border-radius: 6px; font-size: 12px; cursor: pointer; font-weight: bold; }
+        .btn-gemini { background-color: #1a73e8; color: white; border: none; padding: 15px 20px; font-size: 16px; font-weight: bold; border-radius: 10px; cursor: pointer; width: 100%; box-shadow: 0 4px 8px rgba(0,0,0,0.15); margin-bottom: 15px; text-decoration: none; display: block; box-sizing: border-box; }
+        .btn-gemini:hover { background-color: #1557b0; }
+        .btn-whatsapp { background-color: #25D366; color: white; border: none; padding: 15px 20px; font-size: 16px; font-weight: bold; border-radius: 10px; cursor: pointer; width: 100%; box-shadow: 0 4px 8px rgba(0,0,0,0.15); text-decoration: none; display: block; box-sizing: border-box; }
+        .box { background: #f8f9fa; border: 1px solid #ddd; padding: 15px; border-radius: 10px; text-align: left; margin-top: 15px; font-size: 14px; }
+        textarea { width: 100%; height: 100px; padding: 8px; border: 1px solid #ccc; border-radius: 6px; resize: none; margin-top: 8px; font-family: inherit; }
+        .copy-btn { background: #6c757d; color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; font-size: 12px; margin-top: 8px; width: 100%; }
     </style>
 </head>
 <body>
@@ -27,140 +21,39 @@
     <div class="container">
         <h2>Porbandar Bank Auction</h2>
 
-        <!-- Local Key Saver Box -->
-        <div class="key-input-box">
-            <input type="text" id="userApiKey" placeholder="Paste Free Gemini API Key (AIzaSy...) Here...">
-            <button onclick="saveKey()">Save Key</button>
-        </div>
-        
-        <!-- Action Button -->
-        <button class="btn-auction" onclick="getAuctionReport()">
-            📱 Get WhatsApp Auction Report
-        </button>
+        <!-- Step 1: Open Official Gemini -->
+        <a href="https://gemini.google.com" target="_blank" class="btn-gemini">
+            🌐 Open Google Gemini (Free Web)
+        </a>
 
-        <!-- Chat Output -->
-        <div class="chat-box">
-            <div id="chatMessages" class="chat-messages">
-                <div class="msg-ai">👋 Namaste! Upar AIzaSy wali Key save karke button dabao, report yahin ban jayegi.</div>
-            </div>
-            <div class="input-area">
-                <input type="text" id="customInput" placeholder="Sawal poocho..." onkeypress="if(event.key==='Enter') sendCustomMessage()">
-                <button onclick="sendCustomMessage()">Send</button>
-            </div>
+        <!-- Step 2: Format & Copy Box -->
+        <div class="box">
+            <strong>📋 Gujarati Format (Copy karke Gemini me paste karein):</strong>
+            <textarea id="formatText" readonly>🚨 પોરબંદર બેંક હરાજી (SARFAESI Auction Notice) 🚨
+📍 મિલકત વિગત: 
+📍 સરનામું: પોરબંદર, ગુજરાત.
+🏦 બેંકનું નામ: 
+💰 રિઝર્વ પ્રાઇસ: ₹ 
+💵 ઈ.એમ.ડી. રકમ: ₹ 
+📅 હરાજી તારીખ: 
+📍 ગૂગલ મેપ લોકેશન: https://maps.google.com/?q=Porbandar
+⚠️ ખાસ નોંધ: આ માહિતી માત્ર જાણકારી માટે છે.</textarea>
+            <button class="copy-btn" onclick="copyFormat()">📋 Copy Format</button>
+        </div>
+
+        <div style="margin-top: 20px;">
+            <a href="https://wa.me/?text=Porbandar%20Auction%20Report" target="_blank" class="btn-whatsapp">
+                📲 Share to WhatsApp
+            </a>
         </div>
     </div>
 
     <script>
-        window.onload = function() {
-            const savedKey = localStorage.getItem("my_gemini_key_v2");
-            if(savedKey) {
-                document.getElementById("userApiKey").value = savedKey;
-            }
-        };
-
-        function saveKey() {
-            const key = document.getElementById("userApiKey").value.trim();
-            if(key) {
-                localStorage.setItem("my_gemini_key_v2", key);
-                alert("✅ API Key Successfully Saved!");
-            } else {
-                alert("⚠️ Pehle API Key daalo!");
-            }
-        }
-
-        const SYSTEM_PROMPT = `Aapko Porbandar SARFAESI bank auction report strictly isi Gujarati format me deni hai:
-
-🚨 પોરબંદર બેંક હરાજી (SARFAESI Auction Notice) 🚨
-📍 મિલકત વિગત: [Details]
-📍 સરનામું: [Address], પોરબંદર, ગુજરાત.
-🏦 બેંકનું નામ: [Bank Name]
-💰 રિઝર્વ પ્રાઇસ (અંદાજિત રકમ): ₹ [Amount]/-
-💵 ઈ.એમ.ડી. રકમ: ₹ [Amount]/-
-📅 હરાજી તારીખ: [Date]
-📍 ગૂગલ મેપ લોકેશન જુઓ:
-https://maps.google.com/?q=Porbandar
-⚠️ ખાસ નોંધ: આ માહિતી માત્ર જાણકારી માટે છે. બોલી લગાવતા પહેલા બેંક શાખાનો સંપર્ક કરી અધિકૃત નોટિસ ચકાસી લેવી.
-📲 વધુ નવી હરાજીની માહિતી માટે અમારા વોટ્સએપ ગ્રુપમાં જોડાઓ:
-[WhatsApp Group Link]`;
-
-        function getAuctionReport() {
-            const userQuery = "Porbandar active bank auction report do with Google Maps and notice links in Gujarati format";
-            appendMessage("User", "Porbandar Auction Report Banao");
-            callGeminiAPI(userQuery);
-        }
-
-        function sendCustomMessage() {
-            const input = document.getElementById("customInput");
-            const text = input.value.trim();
-            if(!text) return;
-            appendMessage("User", text);
-            input.value = "";
-            callGeminiAPI(text);
-        }
-
-        function appendMessage(sender, text) {
-            const box = document.getElementById("chatMessages");
-            const div = document.createElement("div");
-            div.className = sender === "User" ? "msg-user" : "msg-ai";
-            div.innerText = text;
-            box.appendChild(div);
-            box.scrollTop = box.scrollHeight;
-        }
-
-        async function callGeminiAPI(userPrompt) {
-            let API_KEY = document.getElementById("userApiKey").value.trim() || localStorage.getItem("my_gemini_key_v2");
-
-            if (!API_KEY) {
-                appendMessage("AI", "⚠️ Pehle upar Apni Free Gemini API Key paste karke 'Save Key' click karein!");
-                return;
-            }
-
-            appendMessage("AI", "Generating Gujarati Report...");
-
-            // Active models list (Fallback System)
-            const models = [
-                "gemini-1.5-flash-8b",
-                "gemini-1.5-flash",
-                "gemini-1.5-pro"
-            ];
-
-            let responseSuccess = false;
-            let lastErrorMessage = "";
-
-            for (let model of models) {
-                try {
-                    const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${API_KEY}`;
-                    const response = await fetch(url, {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({
-                            contents: [{
-                                parts: [{ text: SYSTEM_PROMPT + "\n\nUser request: " + userPrompt }]
-                            }]
-                        })
-                    });
-
-                    const data = await response.json();
-
-                    if (data.candidates && data.candidates[0] && data.candidates[0].content) {
-                        const box = document.getElementById("chatMessages");
-                        box.removeChild(box.lastChild);
-                        appendMessage("AI", data.candidates[0].content.parts[0].text);
-                        responseSuccess = true;
-                        break;
-                    } else if (data.error) {
-                        lastErrorMessage = data.error.message;
-                    }
-                } catch (err) {
-                    lastErrorMessage = err.message;
-                }
-            }
-
-            if (!responseSuccess) {
-                const box = document.getElementById("chatMessages");
-                box.removeChild(box.lastChild);
-                appendMessage("AI", "❌ Error: " + lastErrorMessage);
-            }
+        function copyFormat() {
+            const textarea = document.getElementById("formatText");
+            textarea.select();
+            document.execCommand("copy");
+            alert("✅ Format Copied! Ab Gemini me paste karke report bana lo.");
         }
     </script>
 
