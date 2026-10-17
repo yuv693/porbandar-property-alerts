@@ -15,9 +15,9 @@
         .btn-green { background-color: #28a745; color: white; border: none; padding: 10px; font-size: 13px; font-weight: bold; border-radius: 8px; cursor: pointer; width: 100%; margin-top: 8px; }
         .btn-gemini { background-color: #0d6efd; color: white; border: none; padding: 12px; font-size: 14px; font-weight: bold; border-radius: 8px; text-decoration: none; display: block; margin-top: 8px; text-align: center; display: none; }
         
-        /* Separate Property Cards */
+        /* Property Cards Style */
         .property-card { background: #fff; border: 1px solid #28a745; padding: 12px; border-radius: 8px; margin-top: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .property-text { font-size: 13px; white-space: pre-wrap; background: #f9f9f9; padding: 8px; border-radius: 5px; border: 1px solid #eee; margin-bottom: 8px; max-height: 150px; overflow-y: auto; }
+        .property-text { font-size: 13px; white-space: pre-wrap; background: #f9f9f9; padding: 8px; border-radius: 5px; border: 1px solid #eee; margin-bottom: 8px; max-height: 200px; overflow-y: auto; text-align: left; }
     </style>
 </head>
 <body>
@@ -25,9 +25,9 @@
     <div class="container">
         <h2>Porbandar Bank Auction</h2>
 
-        <!-- BOX 1: AUTO SEARCH PROMPT -->
+        <!-- BOX 1: AUTO SEARCH PROMPT WITH MAPS LINK -->
         <div class="box-section">
-            <div class="section-title">1️⃣ Gemini Se Live Search Prompt Banao</div>
+            <div class="section-title">1️⃣ Live Search Prompt (Full Address + Maps Link)</div>
             <button class="btn-blue" onclick="prepareSearchPrompt()">🔍 Create Search Prompt</button>
 
             <div id="searchResultBox" style="display:none; margin-top: 10px;">
@@ -39,11 +39,10 @@
 
         <!-- BOX 2: SEPARATE BULK DETAILS INTO INDIVIDUAL CARDS -->
         <div class="box-section">
-            <div class="section-title">2️⃣ Ek Sath Aayi Details Yahan Paste Karo (Alag-Alag Karne Ke Liye)</div>
-            <textarea id="bulkInput" placeholder="Gemini ka lamba jawab yahan paste karo jisme sabhi properties ek sath hain..."></textarea>
-            <button class="btn-blue" onclick="splitProperties()">✂️ Alag-Alag Property Me Todo</button>
+            <div class="section-title">2️⃣ Gemini Result Paste Karo (Cards Banane Ke Liye)</div>
+            <textarea id="bulkInput" placeholder="Gemini ka pura response yahan paste karo..."></textarea>
+            <button class="btn-blue" onclick="splitProperties()">✂️ Alag-Alag Property Cards Banao</button>
             
-            <!-- Result Separate Cards Container -->
             <div id="cardsContainer" style="margin-top: 15px;"></div>
         </div>
 
@@ -54,19 +53,23 @@
 
 🚨 પોરબંદર બેંક હરાજી (SARFAESI Auction Notice) 🚨
 📍 મિલકત વિગત: [Details]
-📍 સરનામું: [Address], પોરબંદર, ગુજરાત.
+📍 સંપૂર્ણ સરનામું: [Complete Full Address with House/Plot No, Society/Area, Porbandar, Gujarat]
 🏦 બેંકનું નામ: [Bank Name]
 💰 રિઝર્વ પ્રાઇસ (અંદાજિત રકમ): ₹ [Amount]/-
 💵 ઈ.એમ.ડી. રકમ: ₹ [Amount]/-
 📅 હરાજી તારીખ: [Date]
-📍 ગૂગલ મેપ લોકેશન જુઓ: https://maps.google.com/?q=Porbandar
+📍 ગૂગલ મેપ લોકેશન જુઓ: https://www.google.com/maps/search/?api=1&query=[Property Address]+Porbandar
 ⚠️ ખાસ નોંધ: આ માહિતી માત્ર જાણકારી માટે છે. બોલી લગાવતા પહેલા બેંક શાખાનો સંપર્ક કરી અધિકૃત નોટિસ ચકાસી લેવી.
 📲 વધુ નવી હરાજીની માહિતી માટે અમારા વોટ્સએપ ગ્રુપમાં જોડાઓ: [WhatsApp Group Link]`;
 
         function prepareSearchPrompt() {
-            const prompt = `Bank auction property details dhoondo. Location: Porbandar, Gujarat. Bank: Koi bhi bank (SBI, BOB, PNB, Canara, Union Bank, etc.). Property type: Sabhi (Residential, Commercial, Industrial, Agricultural land). Current official SARFAESI auction notices, reserve price, EMD, auction date aur official source links do.
+            const prompt = `Bank auction property details dhoondo. Location: Porbandar, Gujarat. Bank: SBI, BOB, PNB, Canara, Union Bank, HDFC, ICICI, etc. Property type: Sabhi (Residential, Commercial, Industrial, Land). Current official SARFAESI auction notices, reserve price, EMD, auction date aur official source links do.
 
-Har ek property ki report ko strictly is Gujarati format me likho aur alag-alag sections me dikhao:
+IMPORTANT RULES:
+1. Property ka ADDRESS ekdam COMPLETE aur FULL hona chahiye (Flat/House No., Building, Street/Society Name, Area, Porbandar, Gujarat).
+2. "ગૂગલ મેપ લોકેશન જુઓ" wale field me address ko search URL me replace karke complete working link do.
+
+Har ek property ki report ko strictly is Gujarati format me likho:
 ${GUJARATI_FORMAT}`;
 
             document.getElementById("searchFinalPrompt").value = prompt;
@@ -81,24 +84,22 @@ ${GUJARATI_FORMAT}`;
             alert("✅ Prompt Copied! Ab Gemini khol kar paste kar do.");
         }
 
-        // Function to split bulk text into separate property cards
         function splitProperties() {
             const bulkText = document.getElementById("bulkInput").value.trim();
             const container = document.getElementById("cardsContainer");
-            container.innerHTML = ""; // Clear old cards
+            container.innerHTML = ""; 
 
             if(!bulkText) {
-                alert("⚠️ Pehle lamba text yahan paste karo!");
+                alert("⚠️ Pehle Gemini ka jawab paste karo!");
                 return;
             }
 
-            // Split by emojis or common auction headers like 🚨 or 📍 or Bank Name
             let parts = bulkText.split(/🚨|પોરબંદર બેંક હરાજી/g);
-            
             let count = 0;
-            parts.forEach((part, index) => {
+
+            parts.forEach((part) => {
                 let cleaned = part.trim();
-                if(cleaned.length > 30) { // Valid property block
+                if(cleaned.length > 30) {
                     count++;
                     let fullNoticeText = "🚨 પોરબંદર બેંક હરાજી " + cleaned;
 
@@ -114,9 +115,8 @@ ${GUJARATI_FORMAT}`;
             });
 
             if(count === 0) {
-                // If standard split didn't work well, split by double line breaks
                 parts = bulkText.split(/\n\s*\n/);
-                parts.forEach((part, index) => {
+                parts.forEach((part) => {
                     let cleaned = part.trim();
                     if(cleaned.length > 20) {
                         count++;
@@ -133,13 +133,12 @@ ${GUJARATI_FORMAT}`;
             }
 
             if(count === 0) {
-                alert("⚠️ Alag-alag karne me dikkat aayi. Kripya check karein ki text theek se paste hua hai.");
+                alert("⚠️ Text divide nahi ho paya. Ek baar check karein ki response sahi paste hua hai.");
             } else {
-                alert(`✅ Total ${count} properties alag-alag ho gayi hain! Ab aap har ek ko alag copy kar sakte ho.`);
+                alert(`✅ Total ${count} properties ke cards ban gaye hain!`);
             }
         }
 
-        // Copy individual property text
         function copySpecificProperty(elementId) {
             const textElement = document.getElementById(elementId);
             const range = document.createRange();
@@ -148,7 +147,7 @@ ${GUJARATI_FORMAT}`;
             window.getSelection().addRange(range);
             document.execCommand("copy");
             window.getSelection().removeAllRanges();
-            alert("✅ Yeh Property Copy Ho Gayi! Ab WhatsApp par paste kar do.");
+            alert("✅ Property Card Copied! Ab WhatsApp par paste kar do.");
         }
     </script>
 
