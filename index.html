@@ -14,6 +14,7 @@
         .btn-blue { background-color: #1a73e8; color: white; border: none; padding: 12px; font-size: 14px; font-weight: bold; border-radius: 8px; cursor: pointer; width: 100%; margin-top: 8px; }
         .btn-green { background-color: #28a745; color: white; border: none; padding: 10px; font-size: 13px; font-weight: bold; border-radius: 8px; cursor: pointer; width: 100%; margin-top: 8px; }
         .btn-gemini { background-color: #0d6efd; color: white; border: none; padding: 12px; font-size: 14px; font-weight: bold; border-radius: 8px; text-decoration: none; display: block; margin-top: 8px; text-align: center; display: none; }
+        .btn-whatsapp { background-color: #25D366; color: white; border: none; padding: 12px; font-size: 14px; font-weight: bold; border-radius: 8px; text-decoration: none; display: block; margin-bottom: 15px; text-align: center; }
         
         /* Property Cards Style */
         .property-card { background: #fff; border: 1px solid #28a745; padding: 12px; border-radius: 8px; margin-top: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
@@ -24,6 +25,11 @@
 
     <div class="container">
         <h2>Porbandar Bank Auction</h2>
+
+        <!-- DIRECT WHATSAPP GROUP LINK BUTTON -->
+        <a href="https://chat.whatsapp.com/BtELNQOZQ7iJtOhahvCU4M" target="_blank" class="btn-whatsapp">
+            💬 Join Our WhatsApp Group
+        </a>
 
         <!-- BOX 1: AUTO SEARCH PROMPT WITH MAPS LINK -->
         <div class="box-section">
@@ -49,6 +55,8 @@
     </div>
 
     <script>
+        const WA_GROUP_LINK = "https://chat.whatsapp.com/BtELNQOZQ7iJtOhahvCU4M";
+
         const GUJARATI_FORMAT = `Aapko har ek property ki report strictly isi Gujarati format me deni hai:
 
 🚨 પોરબંદર બેંક હરાજી (SARFAESI Auction Notice) 🚨
@@ -60,7 +68,7 @@
 📅 હરાજી તારીખ: [Date]
 📍 ગૂગલ મેપ લોકેશન જુઓ: https://www.google.com/maps/search/?api=1&query=[Property Address]+Porbandar
 ⚠️ ખાસ નોંધ: આ માહિતી માત્ર જાણકારી માટે છે. બોલી લગાવતા પહેલા બેંક શાખાનો સંપર્ક કરી અધિકૃત નોટિસ ચકાસી લેવી.
-📲 વધુ નવી હરાજીની માહિતી માટે અમારા વોટ્સએપ ગ્રુપમાં જોડાઓ: [WhatsApp Group Link]`;
+📲 વધુ નવી હરાજીની માહિતી માટે અમારા વોટ્સએપ ગ્રુપમાં જોડાઓ: ${WA_GROUP_LINK}`;
 
         function prepareSearchPrompt() {
             const prompt = `Bank auction property details dhoondo. Location: Porbandar, Gujarat. Bank: SBI, BOB, PNB, Canara, Union Bank, HDFC, ICICI, etc. Property type: Sabhi (Residential, Commercial, Industrial, Land). Current official SARFAESI auction notices, reserve price, EMD, auction date aur official source links do.
