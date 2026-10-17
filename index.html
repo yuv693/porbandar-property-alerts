@@ -10,7 +10,7 @@
         h2 { color: #333; margin-bottom: 15px; font-size: 20px; }
         .box-section { background: #fafafa; border: 1px solid #e0e0e0; padding: 15px; border-radius: 10px; margin-bottom: 20px; text-align: left; }
         .section-title { font-size: 14px; font-weight: bold; color: #1a73e8; margin-bottom: 8px; }
-        textarea { width: 100%; height: 90px; padding: 10px; border: 1px solid #ccc; border-radius: 8px; font-size: 13px; box-sizing: border-box; outline: none; resize: none; font-family: inherit; margin-top: 5px; }
+        textarea { width: 100%; height: 95px; padding: 10px; border: 1px solid #ccc; border-radius: 8px; font-size: 13px; box-sizing: border-box; outline: none; resize: none; font-family: inherit; margin-top: 5px; }
         .btn-blue { background-color: #1a73e8; color: white; border: none; padding: 12px; font-size: 14px; font-weight: bold; border-radius: 8px; cursor: pointer; width: 100%; margin-top: 8px; }
         .btn-green { background-color: #28a745; color: white; border: none; padding: 10px; font-size: 13px; font-weight: bold; border-radius: 8px; cursor: pointer; width: 100%; margin-top: 8px; }
         .btn-gemini { background-color: #0d6efd; color: white; border: none; padding: 12px; font-size: 14px; font-weight: bold; border-radius: 8px; text-decoration: none; display: block; margin-top: 8px; text-align: center; display: none; }
@@ -33,7 +33,7 @@
 
         <!-- BOX 1: AUTO SEARCH PROMPT WITH MAPS LINK -->
         <div class="box-section">
-            <div class="section-title">1️⃣ Live Search Prompt (Full Address + Maps Link)</div>
+            <div class="section-title">1️⃣ Live Search Prompt (Perfect Address Fix)</div>
             <button class="btn-blue" onclick="prepareSearchPrompt()">🔍 Create Search Prompt</button>
 
             <div id="searchResultBox" style="display:none; margin-top: 10px;">
@@ -60,22 +60,24 @@
         const GUJARATI_FORMAT = `Aapko har ek property ki report strictly isi Gujarati format me deni hai:
 
 🚨 પોરબંદર બેંક હરાજી (SARFAESI Auction Notice) 🚨
-📍 મિલકત વિગત: [Details]
-📍 સંપૂર્ણ સરનામું: [Complete Full Address with House/Plot No, Society/Area, Porbandar, Gujarat]
-🏦 બેંકનું નામ: [Bank Name]
+📍 મિલકત વિગત: [Property Type & Description]
+🏦 બેંકનું નામ અને શાખા: [Bank Name, Branch Name]
+📍 બેંક શાખાનું સરનામું: [Complete Bank Branch Address]
+📍 મિલકતનું પૂરૂ સરનામું: [Exact Property House/Plot No, Society, Landmark, Area, Porbandar, Gujarat]
 💰 રિઝર્વ પ્રાઇસ (અંદાજિત રકમ): ₹ [Amount]/-
 💵 ઈ.એમ.ડી. રકમ: ₹ [Amount]/-
 📅 હરાજી તારીખ: [Date]
-📍 ગૂગલ મેપ લોકેશન જુઓ: https://www.google.com/maps/search/?api=1&query=[Property Address]+Porbandar
+📍 ગૂગલ મેપ લોકેશન જુઓ: https://www.google.com/maps/search/?api=1&query=[Property EXACT Address including Area and Porbandar]
 ⚠️ ખાસ નોંધ: આ માહિતી માત્ર જાણકારી માટે છે. બોલી લગાવતા પહેલા બેંક શાખાનો સંપર્ક કરી અધિકૃત નોટિસ ચકાસી લેવી.
 📲 વધુ નવી હરાજીની માહિતી માટે અમારા વોટ્સએપ ગ્રુપમાં જોડાઓ: ${WA_GROUP_LINK}`;
 
         function prepareSearchPrompt() {
-            const prompt = `Bank auction property details dhoondo. Location: Porbandar, Gujarat. Bank: SBI, BOB, PNB, Canara, Union Bank, HDFC, ICICI, etc. Property type: Sabhi (Residential, Commercial, Industrial, Land). Current official SARFAESI auction notices, reserve price, EMD, auction date aur official source links do.
+            const prompt = `Bank auction property details dhoondo. Location: Porbandar, Gujarat. Bank: SBI, BOB, PNB, Canara, Union Bank, HDFC, ICICI, etc.
 
-IMPORTANT RULES:
-1. Property ka ADDRESS ekdam COMPLETE aur FULL hona chahiye (Flat/House No., Building, Street/Society Name, Area, Porbandar, Gujarat).
-2. "ગૂગલ મેપ લોકેશન જુઓ" wale field me address ko search URL me replace karke complete working link do.
+STRICT ADDRESS & MAP RULES:
+1. "બેંક શાખાનું સરનામું" me ONLY Bank ki Branch ka address likho.
+2. "મિલકતનું પૂરૂ સરનામું" (Property Address) ekdam EXACT hona chahiye (Plot/House/Flat No., Society/Building, Street/Landmark, Area Name, Porbandar, Gujarat 360575).
+3. "ગૂગલ મેપ લોકેશન જુઓ" URL me Property Address ke sare spaces ko '+' se replace karke complete working Google Maps link do. Bank address mix mat karo.
 
 Har ek property ki report ko strictly is Gujarati format me likho:
 ${GUJARATI_FORMAT}`;
@@ -89,7 +91,7 @@ ${GUJARATI_FORMAT}`;
             const textarea = document.getElementById(textareaId);
             textarea.select();
             document.execCommand("copy");
-            alert("✅ Prompt Copied! Ab Gemini khol kar paste kar do.");
+            alert("✅ Perfect Prompt Copied! Ab Gemini me paste kar do.");
         }
 
         function splitProperties() {
@@ -141,7 +143,7 @@ ${GUJARATI_FORMAT}`;
             }
 
             if(count === 0) {
-                alert("⚠️ Text divide nahi ho paya. Ek baar check karein ki response sahi paste hua hai.");
+                alert("⚠️ Text divide nahi ho paya. Responce check karein.");
             } else {
                 alert(`✅ Total ${count} properties ke cards ban gaye hain!`);
             }
