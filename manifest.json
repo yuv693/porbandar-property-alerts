@@ -1,13 +1,19 @@
 {
-  "name": "Porbandar Bank Auctions",
-  "short_name": "BankAuctions",
-  "start_url": "index.html",
+  "name": "Porbandar Property Alerts",
+  "short_name": "Property Alert",
+  "description": "Get latest bank property auction alerts in Porbandar.",
+  "start_url": "/",
   "display": "standalone",
-  "background_color": "#0d47a1",
-  "theme_color": "#0d47a1",
+  "background_color": "#ffffff",
+  "theme_color": "#1e40af",
   "icons": [
     {
-      "src": "https://cdn-icons-png.flaticon.com/512/2830/2830284.png",
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
       "sizes": "512x512",
       "type": "image/png"
     }
