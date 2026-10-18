@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Porbandar SARFAESI Auction Helper</title>
+    
+    <!-- PWA Web App Manifest Link -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#1a73e8">
+
     <style>
         body { font-family: Arial, sans-serif; background-color: #f4f6f9; margin: 0; padding: 15px; text-align: center; }
         .container { max-width: 450px; margin: 15px auto; background: #ffffff; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
@@ -159,6 +164,15 @@ ${GUJARATI_FORMAT}`;
             document.execCommand("copy");
             window.getSelection().removeAllRanges();
             alert("✅ Property Card Copied! Ab WhatsApp par paste kar do.");
+        }
+
+        // --- Service Worker Registration for PWA ---
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(reg => console.log('Service Worker Registered Successfully!'))
+                    .catch(err => console.log('Service Worker Registration Failed:', err));
+            });
         }
     </script>
 
