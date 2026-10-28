@@ -4,11 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Porbandar SARFAESI Auction Helper</title>
-    
-    <!-- PWA Web App Manifest Link -->
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#1a73e8">
-
     <style>
         body { font-family: Arial, sans-serif; background-color: #f4f6f9; margin: 0; padding: 15px; text-align: center; }
         .container { max-width: 450px; margin: 15px auto; background: #ffffff; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
@@ -36,9 +31,9 @@
             💬 Join Our WhatsApp Group
         </a>
 
-        <!-- BOX 1: AUTO SEARCH PROMPT (NO MAP LINK) -->
+        <!-- BOX 1: AUTO SEARCH PROMPT -->
         <div class="box-section">
-            <div class="section-title">1️⃣ Live Search Prompt (Clean Format)</div>
+            <div class="section-title">1️⃣ Live Search Prompt (Porbandar + Ranavav + Kutiyana + Ranakandorá)</div>
             <button class="btn-blue" onclick="prepareSearchPrompt()">🔍 Create Search Prompt</button>
 
             <div id="searchResultBox" style="display:none; margin-top: 10px;">
@@ -66,9 +61,13 @@
 
 🚨 પોરબંદર બેંક હરાજી (SARFAESI Auction Notice) 🚨
 
-📍 મિલકત વિગત: [Property Type & Details]
-📍 સંપૂર્ણ સરનામું: [Complete Property Address with House/Plot No, Building/Society, Area, Porbandar, Gujarat]
-🏦 બેંકનું નામ: [Bank Name]
+📍 મિલકત વિગત: [Property Type & Description]
+📍 સંપૂર્ણ સરનામું: [Complete Exact Address with Flat/Plot No, City Survey Ward/No, Village/Area, Taluka (Porbandar/Ranavav/Kutiyana/Ranakandora), Gujarat]
+📐 ક્ષેત્રફળ (Area): [Land/Built-up Area in Sq Yards/Meters if available, else N/A]
+🧱 ચતુર્સીમા (Boundaries): [North/South/East/West boundaries if available, else N/A]
+👤 માલિક / બોરોઅર: [Owner / Borrower Name if available, else N/A]
+🏦 બેંકનું નામ: [Bank Name & Branch]
+🆔 પ્રોપર્ટી ID: [Property ID if available, else N/A]
 💰 રિઝર્વ પ્રાઇસ (અંદાજિત રકમ): ₹ [Amount]/-
 💵 ઈ.એમ.ડી. રકમ: ₹ [Amount]/-
 📅 હરાજી તારીખ: [Date]
@@ -79,11 +78,13 @@
 ${WA_GROUP_LINK}`;
 
         function prepareSearchPrompt() {
-            const prompt = `Bank auction property details dhoondo. Location: Porbandar, Gujarat. Bank: SBI, BOB, PNB, Canara, Union Bank, HDFC, ICICI, etc.
+            const prompt = `Search all active SARFAESI bank auction properties in Porbandar district, Gujarat.
 
-IMPORTANT RULES:
-1. Google Maps ka koi bhi link ya URL BILKUL MAT DALO.
-2. Property Address ekdam FULL aur CLEAR likho (Flat/Plot No., Building/Society, Landmark, Area Name, Porbandar, Gujarat).
+IMPORTANT REGIONS TO COVER:
+1. Cover Porbandar City areas as well as surrounding rural areas and talukas including Ranavav, Kutiyana, Ranakandorá (Ranakandhora), and nearby villages.
+2. Include properties from major banks: SBI, BOB, PNB, Canara, Union Bank, HDFC, ICICI, Axis Bank, etc.
+3. Include full legal details where available: City Survey/Revenue Survey numbers, Land Area, Boundaries (North, South, East, West), Owner/Borrower Name, and Property ID.
+4. DO NOT include any Google Maps links or extra markdown URL brackets. Use plain text only.
 
 Har ek property ki report ko strictly is Gujarati format me likho:
 ${GUJARATI_FORMAT}`;
@@ -97,7 +98,7 @@ ${GUJARATI_FORMAT}`;
             const textarea = document.getElementById(textareaId);
             textarea.select();
             document.execCommand("copy");
-            alert("✅ Clean Prompt Copied! Ab Gemini me paste kar do.");
+            alert("✅ Search Prompt Copied! Ab Gemini me paste kar do.");
         }
 
         function splitProperties() {
@@ -149,7 +150,7 @@ ${GUJARATI_FORMAT}`;
             }
 
             if(count === 0) {
-                alert("⚠️ Text divide nahi ho paya. Responce check karein.");
+                alert("⚠️ Text divide nahi ho paya. Response check karein.");
             } else {
                 alert(`✅ Total ${count} properties ke cards ban gaye hain!`);
             }
@@ -165,20 +166,7 @@ ${GUJARATI_FORMAT}`;
             window.getSelection().removeAllRanges();
             alert("✅ Property Card Copied! Ab WhatsApp par paste kar do.");
         }
-
-        // --- Service Worker Registration for PWA ---
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js')
-                    .then(reg => console.log('Service Worker Registered Successfully!'))
-                    .catch(err => console.log('Service Worker Registration Failed:', err));
-            });
-        }
     </script>
 
 </body>
 </html>
-
-
-
-
