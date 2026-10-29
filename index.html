@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Porbandar SARFAESI Auction Helper</title>
+    <title>Porbandar Auction & Tender Helper</title>
     <style>
         body { font-family: Arial, sans-serif; background-color: #f4f6f9; margin: 0; padding: 15px; text-align: center; }
         .container { max-width: 450px; margin: 15px auto; background: #ffffff; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
@@ -13,41 +13,54 @@
         textarea { width: 100%; height: 95px; padding: 10px; border: 1px solid #ccc; border-radius: 8px; font-size: 13px; box-sizing: border-box; outline: none; resize: none; font-family: inherit; margin-top: 5px; }
         .btn-blue { background-color: #1a73e8; color: white; border: none; padding: 12px; font-size: 14px; font-weight: bold; border-radius: 8px; cursor: pointer; width: 100%; margin-top: 8px; }
         .btn-green { background-color: #28a745; color: white; border: none; padding: 10px; font-size: 13px; font-weight: bold; border-radius: 8px; cursor: pointer; width: 100%; margin-top: 8px; }
+        .btn-orange { background-color: #ff851b; color: white; border: none; padding: 12px; font-size: 14px; font-weight: bold; border-radius: 8px; cursor: pointer; width: 100%; margin-top: 8px; }
         .btn-gemini { background-color: #0d6efd; color: white; border: none; padding: 12px; font-size: 14px; font-weight: bold; border-radius: 8px; text-decoration: none; display: block; margin-top: 8px; text-align: center; display: none; }
         .btn-whatsapp { background-color: #25D366; color: white; border: none; padding: 12px; font-size: 14px; font-weight: bold; border-radius: 8px; text-decoration: none; display: block; margin-bottom: 15px; text-align: center; }
         
         /* Property Cards Style */
-        .property-card { background: #fff; border: 1px solid #28a745; padding: 12px; border-radius: 8px; margin-top: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .property-text { font-size: 13px; white-space: pre-wrap; background: #f9f9f9; padding: 8px; border-radius: 5px; border: 1px solid #eee; margin-bottom: 8px; max-height: 200px; overflow-y: auto; text-align: left; }
+        .property-card { background: #fff; border: 1px solid #ff851b; padding: 12px; border-radius: 8px; margin-top: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .property-text { font-size: 13px; white-space: pre-wrap; background: #f9f9f9; padding: 8px; border-radius: 5px; border: 1px solid #eee; margin-bottom: 8px; max-height: 220px; overflow-y: auto; text-align: left; }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h2>Porbandar Bank Auction</h2>
+        <h2>Porbandar Auction & Tenders</h2>
 
         <!-- DIRECT WHATSAPP GROUP LINK BUTTON -->
         <a href="https://chat.whatsapp.com/GkkqH2u5bB9G8yVain2KdX?s=cl&p=a&mlu=4&ilr=4" target="_blank" class="btn-whatsapp">
             💬 Join Our WhatsApp Group
         </a>
 
-        <!-- BOX 1: AUTO SEARCH PROMPT -->
+        <!-- BOX 1: BANK AUCTION PROMPT -->
         <div class="box-section">
-            <div class="section-title">1️⃣ Live Search Prompt (Porbandar + Ranavav + Kutiyana + Ranakandorá)</div>
-            <button class="btn-blue" onclick="prepareSearchPrompt()">🔍 Create Search Prompt</button>
+            <div class="section-title">1️⃣ Bank Auction (SARFAESI) Prompt</div>
+            <button class="btn-blue" onclick="prepareBankPrompt()">🔍 Create Bank Search Prompt</button>
 
-            <div id="searchResultBox" style="display:none; margin-top: 10px;">
-                <textarea id="searchFinalPrompt" readonly></textarea>
-                <button class="btn-green" onclick="copyPrompt('searchFinalPrompt', 'searchGeminiBtn')">📋 Copy Search Prompt</button>
-                <a href="https://gemini.google.com" target="_blank" class="btn-gemini" id="searchGeminiBtn">🌐 Open Gemini & Search</a>
+            <div id="bankResultBox" style="display:none; margin-top: 10px;">
+                <textarea id="bankFinalPrompt" readonly></textarea>
+                <button class="btn-green" onclick="copyPrompt('bankFinalPrompt', 'bankGeminiBtn')">📋 Copy Bank Prompt</button>
+                <a href="https://gemini.google.com" target="_blank" class="btn-gemini" id="bankGeminiBtn">🌐 Open Gemini & Search</a>
             </div>
         </div>
 
-        <!-- BOX 2: SEPARATE BULK DETAILS INTO INDIVIDUAL CARDS -->
+        <!-- BOX 2: NAGARPALIKA & GOVT COMMERCIAL PLOTS / TENDERS PROMPT -->
         <div class="box-section">
-            <div class="section-title">2️⃣ Gemini Result Paste Karo (Cards Banane Ke Liye)</div>
+            <div class="section-title">2️⃣ Nagarpalika & Govt Commercial Plots Prompt</div>
+            <button class="btn-orange" onclick="prepareGovtPrompt()">🏛️ Create Govt/Plot Search Prompt</button>
+
+            <div id="govtResultBox" style="display:none; margin-top: 10px;">
+                <textarea id="govtFinalPrompt" readonly></textarea>
+                <button class="btn-green" onclick="copyPrompt('govtFinalPrompt', 'govtGeminiBtn')">📋 Copy Govt Prompt</button>
+                <a href="https://gemini.google.com" target="_blank" class="btn-gemini" id="govtGeminiBtn">🌐 Open Gemini & Tenders</a>
+            </div>
+        </div>
+
+        <!-- BOX 3: SEPARATE BULK DETAILS INTO INDIVIDUAL CARDS -->
+        <div class="box-section">
+            <div class="section-title">3️⃣ Gemini Result Paste Karo (Cards)</div>
             <textarea id="bulkInput" placeholder="Gemini ka pura response yahan paste karo..."></textarea>
-            <button class="btn-blue" onclick="splitProperties()">✂️ Alag-Alag Property Cards Banao</button>
+            <button class="btn-blue" onclick="splitProperties()">✂️ Alag-Alag Cards Banao</button>
             
             <div id="cardsContainer" style="margin-top: 15px;"></div>
         </div>
@@ -57,48 +70,73 @@
     <script>
         const WA_GROUP_LINK = "https://chat.whatsapp.com/GkkqH2u5bB9G8yVain2KdX?s=cl&p=a&mlu=4&ilr=4";
 
-        const GUJARATI_FORMAT = `Aapko har ek property ki report strictly isi clean Gujarati format me deni hai:
+        const BANK_FORMAT = `Aapko har ek property ki report strictly isi clean Gujarati format me deni hai:
 
 🚨 પોરબંદર બેંક હરાજી (SARFAESI Auction Notice) 🚨
 
 📍 મિલકત વિગત: [Property Type & Description]
-📍 સંપૂર્ણ સરનામું: [Complete Exact Address with Flat/Plot No, City Survey Ward/No, Village/Area, Taluka (Porbandar/Ranavav/Kutiyana/Ranakandora), Gujarat]
-📐 ક્ષેત્રફળ (Area): [Land/Built-up Area in Sq Yards/Meters if available, else N/A]
-🧱 ચતુર્સીમા (Boundaries): [North/South/East/West boundaries if available, else N/A]
-👤 માલિક / બોરોઅર: [Owner / Borrower Name if available, else N/A]
+📍 સંપૂર્ણ સરનામું: [Complete Exact Address with Flat/Plot No, Area, Taluka (Porbandar/Ranavav/Kutiyana), Gujarat]
+📐 ક્ષેત્રફળ (Area): [Land/Built-up Area if available, else N/A]
+👤 માલિક / બોરોઅર: [Owner Name if available, else N/A]
 🏦 બેંકનું નામ: [Bank Name & Branch]
-🆔 પ્રોપર્ટી ID: [Property ID if available, else N/A]
-💰 રિઝર્વ પ્રાઇસ (અંદાજિત રકમ): ₹ [Amount]/-
+💰 રિઝર્વ પ્રાઇਸ (અંદાજિત રકમ): ₹ [Amount]/-
 💵 ઈ.એમ.ડી. રકમ: ₹ [Amount]/-
 📅 હરાજી તારીખ: [Date]
 
 ⚠️ ખાસ નોંધ: આ માહિતી માત્ર જાણકારી માટે છે. બોલી લગાવતા પહેલા બેંક શાખાનો સંપર્ક કરી અધિકૃત નોટિસ ચકાસી લેવી.
 
-📲 વધુ નવી હરાજીની માહિતી માટે અમારા વોટ્સએપ ગ્રુપમાં જોડાઓ:
+📲 વધુ માહિતી માટે અમારા વોટ્સએપ ગ્રુપમાં જોડાઓ:
 ${WA_GROUP_LINK}`;
 
-        function prepareSearchPrompt() {
-            const prompt = `Search all active SARFAESI bank auction properties in Porbandar district, Gujarat.
+        const GOVT_FORMAT = `Aapko har ek government tender ya nagarpalika open commercial plot/shop auction ki report strictly isi clean Gujarati format me deni hai:
 
-IMPORTANT REGIONS TO COVER:
-1. Cover Porbandar City areas as well as surrounding rural areas and talukas including Ranavav, Kutiyana, Ranakandorá (Ranakandhora), and nearby villages.
-2. Include properties from major banks: SBI, BOB, PNB, Canara, Union Bank, HDFC, ICICI, Axis Bank, etc.
-3. Include full legal details where available: City Survey/Revenue Survey numbers, Land Area, Boundaries (North, South, East, West), Owner/Borrower Name, and Property ID.
-4. DO NOT include any Google Maps links or extra markdown URL brackets. Use plain text only.
+🏛️ પોરબંદર નગરપાલિકા / સરકારી હરાજી (Government & Municipal Plot Auction) 🏛️
 
-Har ek property ki report ko strictly is Gujarati format me likho:
-${GUJARATI_FORMAT}`;
+📍 મિલકત વિગત: [Commercial Open Plot / Shop / Work Details]
+📍 સંપૂર્ણ સરનામું: [Plot/Shop No, Revenue/City Survey No, Area, Porbandar, Gujarat]
+🧭 ચતુર્સીમા (Boundaries): [North, South, East, West boundaries if available]
+📐 ક્ષેત્રફળ (Area): [Land Area in Sq Meters / Sq Yards / Sq Feet]
+🏢 વિભાગ / સંસ્થા: [Porbandar Nagarpalika / Collector Office / Govt Dept]
+💰 રિઝર્વ પ્રાઇસ / ડિપોઝિટ: ₹ [Amount]/-
+💵 ઈ.એમ.ડી. રકમ: ₹ [Amount]/-
+📅 હરાજી તારીખ / છેલ્લી તારીખ: [Date]
 
-            document.getElementById("searchFinalPrompt").value = prompt;
-            document.getElementById("searchResultBox").style.display = "block";
-            document.getElementById("searchGeminiBtn").style.display = "block";
+⚠️ ખાસ નોંધ: આ માહિતી માત્ર જાણકારી માટે છે. વિગતવાર માહિતી માટે સંબંધિત કચેરીનો સંપર્ક કરવો.
+
+📲 વધુ માહિતી માટે અમારા વોટ્સએપ ગ્રુપમાં જોડાઓ:
+${WA_GROUP_LINK}`;
+
+        function prepareBankPrompt() {
+            const prompt = `Search all active SARFAESI bank auction properties in Porbandar district, Gujarat (including Ranavav, Kutiyana, Ranakandora). 
+Include full details: property type, address, area, bank name, reserve price, EMD, and auction date. 
+DO NOT include any Google Maps links. Use plain text only.
+
+Format strictly like this:
+${BANK_FORMAT}`;
+
+            document.getElementById("bankFinalPrompt").value = prompt;
+            document.getElementById("bankResultBox").style.display = "block";
+            document.getElementById("bankGeminiBtn").style.display = "block";
+        }
+
+        function prepareGovtPrompt() {
+            const prompt = `Search active public commercial open plots, land auctions, shop leases, or tenders by Porbandar Nagarpalika, Collectorate, or local government bodies in Porbandar, Gujarat. 
+Include full details: property type, complete address with survey numbers, boundaries (North, South, East, West), land area in sq meters/yards, department name, reserve price/deposit, EMD, and auction/last date.
+DO NOT include any Google Maps links. Use plain text only.
+
+Format strictly like this:
+${GOVT_FORMAT}`;
+
+            document.getElementById("govtFinalPrompt").value = prompt;
+            document.getElementById("govtResultBox").style.display = "block";
+            document.getElementById("govtGeminiBtn").style.display = "block";
         }
 
         function copyPrompt(textareaId, geminiBtnId) {
             const textarea = document.getElementById(textareaId);
             textarea.select();
             document.execCommand("copy");
-            alert("✅ Search Prompt Copied! Ab Gemini me paste kar do.");
+            alert("✅ Prompt Copied! Ab Gemini me paste kar do.");
         }
 
         function splitProperties() {
@@ -111,48 +149,30 @@ ${GUJARATI_FORMAT}`;
                 return;
             }
 
-            let parts = bulkText.split(/🚨|પોરબંદર બેંક હરાજી/g);
+            let parts = bulkText.split(/🚨|🏛️|પોરબંદર/g);
             let count = 0;
 
             parts.forEach((part) => {
                 let cleaned = part.trim();
                 if(cleaned.length > 30) {
                     count++;
-                    let fullNoticeText = "🚨 પોરબંદર બેંક હરાજી " + cleaned;
+                    let fullNoticeText = (bulkText.includes("🏛️") ? "🏛️ " : "🚨 ") + "પોરબંદર " + cleaned;
 
                     let card = document.createElement("div");
                     card.className = "property-card";
                     card.innerHTML = `
-                        <div style="font-size: 12px; font-weight: bold; color: #28a745; margin-bottom: 5px;">Property #${count}</div>
+                        <div style="font-size: 12px; font-weight: bold; color: #ff851b; margin-bottom: 5px;">Item #${count}</div>
                         <div class="property-text" id="prop_${count}">${fullNoticeText}</div>
-                        <button class="btn-green" onclick="copySpecificProperty('prop_${count}')">📋 Copy Property #${count}</button>
+                        <button class="btn-green" onclick="copySpecificProperty('prop_${count}')">📋 Copy Item #${count}</button>
                     `;
                     container.appendChild(card);
                 }
             });
 
             if(count === 0) {
-                parts = bulkText.split(/\n\s*\n/);
-                parts.forEach((part) => {
-                    let cleaned = part.trim();
-                    if(cleaned.length > 20) {
-                        count++;
-                        let card = document.createElement("div");
-                        card.className = "property-card";
-                        card.innerHTML = `
-                            <div style="font-size: 12px; font-weight: bold; color: #28a745; margin-bottom: 5px;">Property #${count}</div>
-                            <div class="property-text" id="prop_alt_${count}">${cleaned}</div>
-                            <button class="btn-green" onclick="copySpecificProperty('prop_alt_${count}')">📋 Copy Property #${count}</button>
-                        `;
-                        container.appendChild(card);
-                    }
-                });
-            }
-
-            if(count === 0) {
                 alert("⚠️ Text divide nahi ho paya. Response check karein.");
             } else {
-                alert(`✅ Total ${count} properties ke cards ban gaye hain!`);
+                alert(`✅ Total ${count} items ke cards ban gaye hain!`);
             }
         }
 
@@ -164,7 +184,7 @@ ${GUJARATI_FORMAT}`;
             window.getSelection().addRange(range);
             document.execCommand("copy");
             window.getSelection().removeAllRanges();
-            alert("✅ Property Card Copied! Ab WhatsApp par paste kar do.");
+            alert("✅ Card Copied! Ab WhatsApp par paste kar do.");
         }
     </script>
 
