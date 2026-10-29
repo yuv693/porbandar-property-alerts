@@ -3,23 +3,140 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Porbandar Auction & Tender Helper</title>
+    <title>Porbandar Auction & Tender Portal</title>
     <style>
-        body { font-family: Arial, sans-serif; background-color: #f4f6f9; margin: 0; padding: 15px; text-align: center; }
-        .container { max-width: 450px; margin: 15px auto; background: #ffffff; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        h2 { color: #333; margin-bottom: 15px; font-size: 20px; }
-        .box-section { background: #fafafa; border: 1px solid #e0e0e0; padding: 15px; border-radius: 10px; margin-bottom: 20px; text-align: left; }
-        .section-title { font-size: 14px; font-weight: bold; color: #1a73e8; margin-bottom: 8px; }
-        textarea { width: 100%; height: 95px; padding: 10px; border: 1px solid #ccc; border-radius: 8px; font-size: 13px; box-sizing: border-box; outline: none; resize: none; font-family: inherit; margin-top: 5px; }
-        .btn-blue { background-color: #1a73e8; color: white; border: none; padding: 12px; font-size: 14px; font-weight: bold; border-radius: 8px; cursor: pointer; width: 100%; margin-top: 8px; }
-        .btn-green { background-color: #28a745; color: white; border: none; padding: 10px; font-size: 13px; font-weight: bold; border-radius: 8px; cursor: pointer; width: 100%; margin-top: 8px; }
-        .btn-orange { background-color: #ff851b; color: white; border: none; padding: 12px; font-size: 14px; font-weight: bold; border-radius: 8px; cursor: pointer; width: 100%; margin-top: 8px; }
-        .btn-gemini { background-color: #0d6efd; color: white; border: none; padding: 12px; font-size: 14px; font-weight: bold; border-radius: 8px; text-decoration: none; display: block; margin-top: 8px; text-align: center; display: none; }
-        .btn-whatsapp { background-color: #25D366; color: white; border: none; padding: 12px; font-size: 14px; font-weight: bold; border-radius: 8px; text-decoration: none; display: block; margin-bottom: 15px; text-align: center; }
+        body { 
+            font-family: Arial, sans-serif; 
+            background-color: #f4f6f9; 
+            margin: 0; 
+            padding: 15px; 
+            text-align: center; 
+        }
+        .container { 
+            max-width: 450px; 
+            margin: 15px auto; 
+            background: #ffffff; 
+            padding: 20px; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
+        }
+        h2 { 
+            color: #333; 
+            margin-bottom: 15px; 
+            font-size: 20px; 
+        }
+        .box-section { 
+            background: #fafafa; 
+            border: 1px solid #e0e0e0; 
+            padding: 15px; 
+            border-radius: 10px; 
+            margin-bottom: 20px; 
+            text-align: left; 
+        }
+        .section-title { 
+            font-size: 14px; 
+            font-weight: bold; 
+            color: #1a73e8; 
+            margin-bottom: 8px; 
+        }
+        textarea { 
+            width: 100%; 
+            height: 95px; 
+            padding: 10px; 
+            border: 1px solid #ccc; 
+            border-radius: 8px; 
+            font-size: 13px; 
+            box-sizing: border-box; 
+            outline: none; 
+            resize: none; 
+            font-family: inherit; 
+            margin-top: 5px; 
+        }
+        .btn-blue { 
+            background-color: #1a73e8; 
+            color: white; 
+            border: none; 
+            padding: 12px; 
+            font-size: 14px; 
+            font-weight: bold; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            width: 100%; 
+            margin-top: 8px; 
+        }
+        .btn-green { 
+            background-color: #28a745; 
+            color: white; 
+            border: none; 
+            padding: 10px; 
+            font-size: 13px; 
+            font-weight: bold; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            width: 100%; 
+            margin-top: 8px; 
+        }
+        .btn-orange { 
+            background-color: #ff851b; 
+            color: white; 
+            border: none; 
+            padding: 12px; 
+            font-size: 14px; 
+            font-weight: bold; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            width: 100%; 
+            margin-top: 8px; 
+        }
+        .btn-gemini { 
+            background-color: #0d6efd; 
+            color: white; 
+            border: none; 
+            padding: 12px; 
+            font-size: 14px; 
+            font-weight: bold; 
+            border-radius: 8px; 
+            text-decoration: none; 
+            display: block; 
+            margin-top: 8px; 
+            text-align: center; 
+            display: none; 
+        }
+        .btn-whatsapp { 
+            background-color: #25D366; 
+            color: white; 
+            border: none; 
+            padding: 12px; 
+            font-size: 14px; 
+            font-weight: bold; 
+            border-radius: 8px; 
+            text-decoration: none; 
+            display: block; 
+            margin-bottom: 15px; 
+            text-align: center; 
+        }
         
         /* Property Cards Style */
-        .property-card { background: #fff; border: 1px solid #ff851b; padding: 12px; border-radius: 8px; margin-top: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .property-text { font-size: 13px; white-space: pre-wrap; background: #f9f9f9; padding: 8px; border-radius: 5px; border: 1px solid #eee; margin-bottom: 8px; max-height: 220px; overflow-y: auto; text-align: left; }
+        .property-card { 
+            background: #fff; 
+            border: 1px solid #1a73e8; 
+            padding: 12px; 
+            border-radius: 8px; 
+            margin-top: 12px; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05); 
+        }
+        .property-text { 
+            font-size: 13px; 
+            white-space: pre-wrap; 
+            background: #f9f9f9; 
+            padding: 8px; 
+            border-radius: 5px; 
+            border: 1px solid #eee; 
+            margin-bottom: 8px; 
+            max-height: 220px; 
+            overflow-y: auto; 
+            text-align: left; 
+        }
     </style>
 </head>
 <body>
@@ -75,17 +192,19 @@
 🚨 પોરબંદર બેંક હરાજી (SARFAESI Auction Notice) 🚨
 
 📍 મિલકત વિગત: [Property Type & Description]
-📍 સંપૂર્ણ સરનામું: [Complete Exact Address with Flat/Plot No, Area, Taluka (Porbandar/Ranavav/Kutiyana), Gujarat]
-📐 ક્ષેત્રફળ (Area): [Land/Built-up Area if available, else N/A]
-👤 માલિક / બોરોઅર: [Owner Name if available, else N/A]
+📍 સંપૂર્ણ સરનામું: [Complete Exact Address with Flat/Plot No, Revenue/City Survey No, Area, Taluka (Porbandar/Ranavav/Kutiyana/Ranakandora), Gujarat]
+📐 ક્ષેત્રફળ (Area): [Land/Built-up Area in Sq Yards/Meters if available, else N/A]
+🧱 ચતુર્સીમા (Boundaries): [North, South, East, West boundaries if available, else N/A]
+👤 માલિક / બોરોઅર: [Owner / Borrower Name if available, else N/A]
 🏦 બેંકનું નામ: [Bank Name & Branch]
-💰 રિઝર્વ પ્રાઇਸ (અંદાજિત રકમ): ₹ [Amount]/-
+🆔 પ્રોપર્ટી ID: [Property ID if available, else N/A]
+💰 રિઝર્વ પ્રાઇસ (અંદાજિત રકમ): ₹ [Amount]/-
 💵 ઈ.એમ.ડી. રકમ: ₹ [Amount]/-
 📅 હરાજી તારીખ: [Date]
 
 ⚠️ ખાસ નોંધ: આ માહિતી માત્ર જાણકારી માટે છે. બોલી લગાવતા પહેલા બેંક શાખાનો સંપર્ક કરી અધિકૃત નોટિસ ચકાસી લેવી.
 
-📲 વધુ માહિતી માટે અમારા વોટ્સએપ ગ્રુપમાં જોડાઓ:
+📲 વધુ નવી હરાજીની માહિતી માટે અમારા વોટ્સએપ ગ્રુપમાં જોડાઓ:
 ${WA_GROUP_LINK}`;
 
         const GOVT_FORMAT = `Aapko har ek government tender ya nagarpalika open commercial plot/shop auction ki report strictly isi clean Gujarati format me deni hai:
@@ -94,24 +213,33 @@ ${WA_GROUP_LINK}`;
 
 📍 મિલકત વિગત: [Commercial Open Plot / Shop / Work Details]
 📍 સંપૂર્ણ સરનામું: [Plot/Shop No, Revenue/City Survey No, Area, Porbandar, Gujarat]
-🧭 ચતુર્સીમા (Boundaries): [North, South, East, West boundaries if available]
-📐 ક્ષેત્રફળ (Area): [Land Area in Sq Meters / Sq Yards / Sq Feet]
+🧭 ચતુર્સીમા (Boundaries): [North, South, East, West boundaries if available, else N/A]
+📐 ક્ષેત્રફળ (Area): [Land Area in Sq Meters / Sq Yards / Sq Feet if available, else N/A]
 🏢 વિભાગ / સંસ્થા: [Porbandar Nagarpalika / Collector Office / Govt Dept]
+🆔 પ્રોપર્ટી / ટેન્ડર ID: [Property/Tender ID if available, else N/A]
 💰 રિઝર્વ પ્રાઇસ / ડિપોઝિટ: ₹ [Amount]/-
 💵 ઈ.એમ.ડી. રકમ: ₹ [Amount]/-
 📅 હરાજી તારીખ / છેલ્લી તારીખ: [Date]
 
 ⚠️ ખાસ નોંધ: આ માહિતી માત્ર જાણકારી માટે છે. વિગતવાર માહિતી માટે સંબંધિત કચેરીનો સંપર્ક કરવો.
 
-📲 વધુ માહિતી માટે અમારા વોટ્સએપ ગ્રુપમાં જોડાઓ:
+📲 વધુ નવી હરાજીની માહિતી માટે અમારા વોટ્સએપ ગ્રુપમાં જોડાઓ:
 ${WA_GROUP_LINK}`;
 
         function prepareBankPrompt() {
-            const prompt = `Search all active SARFAESI bank auction properties in Porbandar district, Gujarat (including Ranavav, Kutiyana, Ranakandora). 
-Include full details: property type, address, area, bank name, reserve price, EMD, and auction date. 
-DO NOT include any Google Maps links. Use plain text only.
+            // Dynamic Current Date (DD/MM/YYYY)
+            const today = new Date();
+            const dateString = today.getDate() + "/" + (today.getMonth() + 1) + "/" + today.getFullYear();
 
-Format strictly like this:
+            const prompt = `Search all ACTIVE & UPCOMING SARFAESI bank auction properties in Porbandar district, Gujarat (including Porbandar City, Ranavav, Kutiyana, and Ranakandora/Ranakandhora villages).
+
+STRICT RULES TO FOLLOW:
+1. DATE FILTER: ONLY include auction notices where the Auction Date is AFTER TODAY (${dateString}). DO NOT include past or expired auction dates.
+2. PRICE MANDATORY: Include exact numerical Reserve Price (Amount in ₹) and EMD Amount. Do NOT write "N/A" or "As per notice" for Price or EMD.
+3. FULL LEGAL DETAILS: Include exact address with Survey/City Survey numbers, Area (Sq. Yards/Meters), Boundaries (North, South, East, West), Owner/Borrower name, Bank Name, Reserve Price, EMD, and future auction date.
+4. DO NOT include any Google Maps links or markdown URL brackets like [url](url). Write simple plain text.
+
+Har ek property ki report ko strictly is Gujarati format me likho:
 ${BANK_FORMAT}`;
 
             document.getElementById("bankFinalPrompt").value = prompt;
@@ -120,11 +248,18 @@ ${BANK_FORMAT}`;
         }
 
         function prepareGovtPrompt() {
-            const prompt = `Search active public commercial open plots, land auctions, shop leases, or tenders by Porbandar Nagarpalika, Collectorate, or local government bodies in Porbandar, Gujarat. 
-Include full details: property type, complete address with survey numbers, boundaries (North, South, East, West), land area in sq meters/yards, department name, reserve price/deposit, EMD, and auction/last date.
-DO NOT include any Google Maps links. Use plain text only.
+            const today = new Date();
+            const dateString = today.getDate() + "/" + (today.getMonth() + 1) + "/" + today.getFullYear();
 
-Format strictly like this:
+            const prompt = `Search active public commercial open plots, land auctions, shop leases, or tenders by Porbandar Nagarpalika, Collectorate, or local government bodies in Porbandar, Gujarat.
+
+STRICT RULES TO FOLLOW:
+1. DATE FILTER: ONLY include notices where the Auction / Tender Last Date is AFTER TODAY (${dateString}). DO NOT include past or expired dates.
+2. PRICE MANDATORY: Include exact numerical Reserve Price / Tender Deposit Amount in ₹. Do NOT write "N/A" for Price or EMD.
+3. FULL LEGAL DETAILS: Include full details with Survey numbers, Boundaries (North, South, East, West), Land Area, Department Name, Price, EMD, and upcoming date.
+4. DO NOT include any Google Maps links or markdown URL brackets. Write simple plain text.
+
+Har ek item ki report ko strictly is Gujarati format me likho:
 ${GOVT_FORMAT}`;
 
             document.getElementById("govtFinalPrompt").value = prompt;
@@ -136,7 +271,7 @@ ${GOVT_FORMAT}`;
             const textarea = document.getElementById(textareaId);
             textarea.select();
             document.execCommand("copy");
-            alert("✅ Prompt Copied! Ab Gemini me paste kar do.");
+            alert("✅ Search Prompt Copied! Ab Gemini me paste kar do.");
         }
 
         function splitProperties() {
@@ -161,7 +296,7 @@ ${GOVT_FORMAT}`;
                     let card = document.createElement("div");
                     card.className = "property-card";
                     card.innerHTML = `
-                        <div style="font-size: 12px; font-weight: bold; color: #ff851b; margin-bottom: 5px;">Item #${count}</div>
+                        <div style="font-size: 12px; font-weight: bold; color: #1a73e8; margin-bottom: 5px;">Item #${count}</div>
                         <div class="property-text" id="prop_${count}">${fullNoticeText}</div>
                         <button class="btn-green" onclick="copySpecificProperty('prop_${count}')">📋 Copy Item #${count}</button>
                     `;
@@ -170,7 +305,7 @@ ${GOVT_FORMAT}`;
             });
 
             if(count === 0) {
-                alert("⚠️ Text divide nahi ho paya. Response check karein.");
+                alert("⚠️ Text divide nahi ho paya. Clean response paste karein.");
             } else {
                 alert(`✅ Total ${count} items ke cards ban gaye hain!`);
             }
@@ -184,7 +319,7 @@ ${GOVT_FORMAT}`;
             window.getSelection().addRange(range);
             document.execCommand("copy");
             window.getSelection().removeAllRanges();
-            alert("✅ Card Copied! Ab WhatsApp par paste kar do.");
+            alert("✅ Card Copied! Ab WhatsApp group par paste kar do.");
         }
     </script>
 
