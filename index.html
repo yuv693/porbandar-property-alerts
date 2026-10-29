@@ -192,10 +192,10 @@
 🚨 પોરબંદર બેંક હરાજી (SARFAESI Auction Notice) 🚨
 
 📍 મિલકત વિગત: [Property Type & Description]
-📍 સંપૂર્ણ સરનામું: [Complete Exact Address with Flat/Plot No, Revenue/City Survey No, Area, Taluka (Porbandar/Ranavav/Kutiyana/Ranakandora), Gujarat]
+📍 સંપૂર્ણ સરનામું (Full Address): [Flat/Plot No, Building/Society, Revenue/City Survey No, Area, Taluka (Porbandar/Ranavav/Kutiyana/Ranakandora), Gujarat]
+👤 મિલકતના માલિક / બોરોઅर (Owner/Borrower): [Full Name of Property Owner and Borrower Firm]
 📐 ક્ષેત્રફળ (Area): [Land/Built-up Area in Sq Yards/Meters if available, else N/A]
 🧱 ચતુર્સીમા (Boundaries): [North, South, East, West boundaries if available, else N/A]
-👤 માલિક / બોરોઅર: [Owner / Borrower Name if available, else N/A]
 🏦 બેંકનું નામ: [Bank Name & Branch]
 🆔 પ્રોપર્ટી ID: [Property ID if available, else N/A]
 💰 રિઝર્વ પ્રાઇસ (અંદાજિત રકમ): ₹ [Amount]/-
@@ -212,7 +212,8 @@ ${WA_GROUP_LINK}`;
 🏛️ પોરબંદર નગરપાલિકા / સરકારી હરાજી (Government & Municipal Plot Auction) 🏛️
 
 📍 મિલકત વિગત: [Commercial Open Plot / Shop / Work Details]
-📍 સંપૂર્ણ સરનામું: [Plot/Shop No, Revenue/City Survey No, Area, Porbandar, Gujarat]
+📍 સંપૂર્ણ સરનામું (Full Address): [Plot/Shop No, Revenue/City Survey No, Area, Taluka (Porbandar/Ranavav/Kutiyana), Gujarat]
+👤 મિલકત ધારક / અરજદાર (Owner/Allottee): [Name if available, else N/A]
 🧭 ચતુર્સીમા (Boundaries): [North, South, East, West boundaries if available, else N/A]
 📐 ક્ષેત્રફળ (Area): [Land Area in Sq Meters / Sq Yards / Sq Feet if available, else N/A]
 🏢 વિભાગ / સંસ્થા: [Porbandar Nagarpalika / Collector Office / Govt Dept]
@@ -227,7 +228,6 @@ ${WA_GROUP_LINK}`;
 ${WA_GROUP_LINK}`;
 
         function prepareBankPrompt() {
-            // Dynamic Current Date (DD/MM/YYYY)
             const today = new Date();
             const dateString = today.getDate() + "/" + (today.getMonth() + 1) + "/" + today.getFullYear();
 
@@ -235,9 +235,9 @@ ${WA_GROUP_LINK}`;
 
 STRICT RULES TO FOLLOW:
 1. DATE FILTER: ONLY include auction notices where the Auction Date is AFTER TODAY (${dateString}). DO NOT include past or expired auction dates.
-2. PRICE MANDATORY: Include exact numerical Reserve Price (Amount in ₹) and EMD Amount. Do NOT write "N/A" or "As per notice" for Price or EMD.
-3. FULL LEGAL DETAILS: Include exact address with Survey/City Survey numbers, Area (Sq. Yards/Meters), Boundaries (North, South, East, West), Owner/Borrower name, Bank Name, Reserve Price, EMD, and future auction date.
-4. DO NOT include any Google Maps links or markdown URL brackets like [url](url). Write simple plain text.
+2. PRICE MANDATORY: Include exact numerical Reserve Price (Amount in ₹) and EMD Amount. Do NOT write "N/A" for Price or EMD.
+3. FULL LEGAL DETAILS & OWNER NAME: Must include exact full address with Revenue/City Survey numbers, and full Property Owner / Borrower Name.
+4. DO NOT include any Google Maps links or markdown URL brackets. Write simple plain text.
 
 Har ek property ki report ko strictly is Gujarati format me likho:
 ${BANK_FORMAT}`;
@@ -256,7 +256,7 @@ ${BANK_FORMAT}`;
 STRICT RULES TO FOLLOW:
 1. DATE FILTER: ONLY include notices where the Auction / Tender Last Date is AFTER TODAY (${dateString}). DO NOT include past or expired dates.
 2. PRICE MANDATORY: Include exact numerical Reserve Price / Tender Deposit Amount in ₹. Do NOT write "N/A" for Price or EMD.
-3. FULL LEGAL DETAILS: Include full details with Survey numbers, Boundaries (North, South, East, West), Land Area, Department Name, Price, EMD, and upcoming date.
+3. FULL LEGAL DETAILS & OWNER/APPLICANT NAME: Must include complete full address with Survey numbers, and Owner / Applicant name if available.
 4. DO NOT include any Google Maps links or markdown URL brackets. Write simple plain text.
 
 Har ek item ki report ko strictly is Gujarati format me likho:
