@@ -116,7 +116,7 @@
             text-align: center; 
         }
         
-        /* Fixed Property Cards Style - No Text Cutting */
+        /* Full View Property Cards (No Cut Text) */
         .property-card { 
             background: #fff; 
             border: 2px solid #1a73e8; 
@@ -142,7 +142,7 @@
 <body>
 
     <div class="container">
-        <h2>Porbandar Auction & Tenders</h2>
+        <h2>Porbandar Auction & Tenders Portal</h2>
 
         <!-- DIRECT WHATSAPP GROUP LINK BUTTON -->
         <a href="https://chat.whatsapp.com/GkkqH2u5bB9G8yVain2KdX?s=cl&p=a&mlu=4&ilr=4" target="_blank" class="btn-whatsapp">
@@ -151,7 +151,7 @@
 
         <!-- BOX 1: BANK AUCTION PROMPT -->
         <div class="box-section">
-            <div class="section-title">1️⃣ Bank Auction (SARFAESI) Prompt</div>
+            <div class="section-title">1️⃣ Bank Auction (IBAPI / SARFAESI) Prompt</div>
             <button class="btn-blue" onclick="prepareBankPrompt()">🔍 Create Bank Search Prompt</button>
 
             <div id="bankResultBox" style="display:none; margin-top: 10px;">
@@ -163,7 +163,7 @@
 
         <!-- BOX 2: NAGARPALIKA & GOVT COMMERCIAL PLOTS / TENDERS PROMPT -->
         <div class="box-section">
-            <div class="section-title">2️⃣ Nagarpalika & Govt Commercial Plots Prompt</div>
+            <div class="section-title">2️⃣ Nagarpalika & Govt Portals Prompt</div>
             <button class="btn-orange" onclick="prepareGovtPrompt()">🏛️ Create Govt/Plot Search Prompt</button>
 
             <div id="govtResultBox" style="display:none; margin-top: 10px;">
@@ -193,7 +193,7 @@
 
 📍 મિલકત વિગત: [Property Type & Description]
 📍 સંપૂર્ણ સરનામું (Full Address): [Flat/Plot No, Building/Society, Revenue/City Survey No, Area, Taluka (Porbandar/Ranavav/Kutiyana/Ranakandora), Gujarat]
-👤 મિલકતના માલિક / બોરોઅર (Owner/Borrower): [Full Name of Property Owner and Borrower Firm]
+👤 મિલકતના માલિક / બોરોઅર (Owner/Borrower): [Full Name of Property Owner / Borrower]
 📐 ક્ષેત્રફળ (Area): [Land/Built-up Area in Sq Yards/Meters if available, else N/A]
 🧱 ચતુર્સીમા (Boundaries): [North, South, East, West boundaries if available, else N/A]
 🏦 બેંકનું નામ: [Bank Name & Branch]
@@ -231,13 +231,18 @@ ${WA_GROUP_LINK}`;
             const today = new Date();
             const dateString = today.getDate() + "/" + (today.getMonth() + 1) + "/" + today.getFullYear();
 
-            const prompt = `Search all ACTIVE & UPCOMING SARFAESI bank auction properties in Porbandar district, Gujarat (including Porbandar City, Ranavav, Kutiyana, and Ranakandora/Ranakandhora villages).
+            const prompt = `Search all ACTIVE & UPCOMING SARFAESI bank auction properties in Porbandar district, Gujarat (including Porbandar City, Ranavav, Kutiyana, and Ranakandora/Ranakandhora).
+
+SEARCH SOURCES TO COVER:
+- IBAPI Portal (ibapi.in)
+- Official E-Auction portals (bankeauctions.com, baanknet.com)
+- Major banks: SBI, BOB, PNB, Canara, Union Bank, HDFC, ICICI, Axis Bank, etc.
 
 STRICT RULES TO FOLLOW:
-1. DATE FILTER: ONLY include auction notices where the Auction Date is AFTER TODAY (${dateString}). DO NOT include past or expired auction dates.
+1. DATE FILTER: ONLY include auction notices where the Auction Date is AFTER TODAY (${dateString}). DO NOT include past or expired dates.
 2. PRICE MANDATORY: Include exact numerical Reserve Price (Amount in ₹) and EMD Amount. Do NOT write "N/A" for Price or EMD.
-3. FULL LEGAL DETAILS & OWNER NAME: Must include exact full address with Revenue/City Survey numbers, and full Property Owner / Borrower Name.
-4. DO NOT include any Google Maps links or markdown URL brackets. Write simple plain text.
+3. FULL LEGAL DETAILS & OWNER NAME: Must include exact full address with Revenue/City Survey numbers, and Property Owner / Borrower Name.
+4. DO NOT include any Google Maps links or markdown URL brackets like [url](url). Write simple plain text.
 
 Har ek property ki report ko strictly is Gujarati format me likho:
 ${BANK_FORMAT}`;
@@ -251,12 +256,18 @@ ${BANK_FORMAT}`;
             const today = new Date();
             const dateString = today.getDate() + "/" + (today.getMonth() + 1) + "/" + today.getFullYear();
 
-            const prompt = `Search active public commercial open plots, land auctions, shop leases, or tenders by Porbandar Nagarpalika, Collectorate, or local government bodies in Porbandar, Gujarat.
+            const prompt = `Search active public commercial open plots, land auctions, shop leases, or tenders in Porbandar, Gujarat.
+
+SEARCH SOURCES TO COVER:
+- Porbandar Nagarpalika / Collectorate notices
+- GeM Portal (gem.gov.in)
+- Central Public Procurement Portal (eprocure.gov.in)
+- Local government auction advertisements
 
 STRICT RULES TO FOLLOW:
 1. DATE FILTER: ONLY include notices where the Auction / Tender Last Date is AFTER TODAY (${dateString}). DO NOT include past or expired dates.
 2. PRICE MANDATORY: Include exact numerical Reserve Price / Tender Deposit Amount in ₹. Do NOT write "N/A" for Price or EMD.
-3. FULL LEGAL DETAILS & OWNER/APPLICANT NAME: Must include complete full address with Survey numbers, and Owner / Applicant name if available.
+3. FULL LEGAL DETAILS & OWNER NAME: Must include complete full address with Survey numbers, and Owner / Applicant name if available.
 4. DO NOT include any Google Maps links or markdown URL brackets. Write simple plain text.
 
 Har ek item ki report ko strictly is Gujarati format me likho:
@@ -274,7 +285,7 @@ ${GOVT_FORMAT}`;
             alert("✅ Search Prompt Copied! Ab Gemini me paste kar do.");
         }
 
-        // FIXED SPLITTING LOGIC
+        // FIXED SPLITTING LOGIC (Splits full notices without cutting text)
         function splitProperties() {
             const bulkText = document.getElementById("bulkInput").value.trim();
             const container = document.getElementById("cardsContainer");
