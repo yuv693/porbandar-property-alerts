@@ -41,7 +41,7 @@
         }
         textarea { 
             width: 100%; 
-            height: 95px; 
+            height: 100px; 
             padding: 10px; 
             border: 1px solid #ccc; 
             border-radius: 8px; 
@@ -68,8 +68,8 @@
             background-color: #28a745; 
             color: white; 
             border: none; 
-            padding: 10px; 
-            font-size: 13px; 
+            padding: 12px; 
+            font-size: 14px; 
             font-weight: bold; 
             border-radius: 8px; 
             cursor: pointer; 
@@ -116,26 +116,26 @@
             text-align: center; 
         }
         
-        /* Property Cards Style */
+        /* Fixed Property Cards Style - No Text Cutting */
         .property-card { 
             background: #fff; 
-            border: 1px solid #1a73e8; 
+            border: 2px solid #1a73e8; 
             padding: 12px; 
             border-radius: 8px; 
-            margin-top: 12px; 
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05); 
+            margin-top: 15px; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.08); 
         }
         .property-text { 
             font-size: 13px; 
+            line-height: 1.5;
             white-space: pre-wrap; 
             background: #f9f9f9; 
-            padding: 8px; 
+            padding: 10px; 
             border-radius: 5px; 
-            border: 1px solid #eee; 
-            margin-bottom: 8px; 
-            max-height: 220px; 
-            overflow-y: auto; 
+            border: 1px solid #ddd; 
+            margin-bottom: 10px; 
             text-align: left; 
+            word-wrap: break-word;
         }
     </style>
 </head>
@@ -193,7 +193,7 @@
 
 📍 મિલકત વિગત: [Property Type & Description]
 📍 સંપૂર્ણ સરનામું (Full Address): [Flat/Plot No, Building/Society, Revenue/City Survey No, Area, Taluka (Porbandar/Ranavav/Kutiyana/Ranakandora), Gujarat]
-👤 મિલકતના માલિક / બોરોઅर (Owner/Borrower): [Full Name of Property Owner and Borrower Firm]
+👤 મિલકતના માલિક / બોરોઅર (Owner/Borrower): [Full Name of Property Owner and Borrower Firm]
 📐 ક્ષેત્રફળ (Area): [Land/Built-up Area in Sq Yards/Meters if available, else N/A]
 🧱 ચતુર્સીમા (Boundaries): [North, South, East, West boundaries if available, else N/A]
 🏦 બેંકનું નામ: [Bank Name & Branch]
@@ -274,6 +274,7 @@ ${GOVT_FORMAT}`;
             alert("✅ Search Prompt Copied! Ab Gemini me paste kar do.");
         }
 
+        // FIXED SPLITTING LOGIC
         function splitProperties() {
             const bulkText = document.getElementById("bulkInput").value.trim();
             const container = document.getElementById("cardsContainer");
@@ -284,20 +285,19 @@ ${GOVT_FORMAT}`;
                 return;
             }
 
-            let parts = bulkText.split(/🚨|🏛️|પોરબંદર/g);
+            // Split properly by full title headers
+            let rawParts = bulkText.split(/(?=🚨|🏛️)/g);
             let count = 0;
 
-            parts.forEach((part) => {
+            rawParts.forEach((part) => {
                 let cleaned = part.trim();
-                if(cleaned.length > 30) {
+                if(cleaned.length > 40) {
                     count++;
-                    let fullNoticeText = (bulkText.includes("🏛️") ? "🏛️ " : "🚨 ") + "પોરબંદર " + cleaned;
-
                     let card = document.createElement("div");
                     card.className = "property-card";
                     card.innerHTML = `
-                        <div style="font-size: 12px; font-weight: bold; color: #1a73e8; margin-bottom: 5px;">Item #${count}</div>
-                        <div class="property-text" id="prop_${count}">${fullNoticeText}</div>
+                        <div style="font-size: 13px; font-weight: bold; color: #1a73e8; margin-bottom: 8px;">Item #${count}</div>
+                        <div class="property-text" id="prop_${count}">${cleaned}</div>
                         <button class="btn-green" onclick="copySpecificProperty('prop_${count}')">📋 Copy Item #${count}</button>
                     `;
                     container.appendChild(card);
@@ -305,9 +305,9 @@ ${GOVT_FORMAT}`;
             });
 
             if(count === 0) {
-                alert("⚠️ Text divide nahi ho paya. Clean response paste karein.");
+                alert("⚠️ Format match nahi hua. Direct Gemini ka response paste karein.");
             } else {
-                alert(`✅ Total ${count} items ke cards ban gaye hain!`);
+                alert(`✅ Total ${count} PURI properties ke cards ban gaye hain!`);
             }
         }
 
