@@ -116,7 +116,6 @@
             text-align: center; 
         }
         
-        /* Full View Property Cards (No Cut Text) */
         .property-card { 
             background: #fff; 
             border: 2px solid #1a73e8; 
@@ -151,7 +150,7 @@
 
         <!-- BOX 1: BANK AUCTION PROMPT -->
         <div class="box-section">
-            <div class="section-title">1️⃣ Bank Auction (IBAPI / SARFAESI) Prompt</div>
+            <div class="section-title">1️⃣ Bank Auction (Public & Pvt Banks) Prompt</div>
             <button class="btn-blue" onclick="prepareBankPrompt()">🔍 Create Bank Search Prompt</button>
 
             <div id="bankResultBox" style="display:none; margin-top: 10px;">
@@ -191,16 +190,18 @@
 
 🚨 પોરબંદર બેંક હરાજી (SARFAESI Auction Notice) 🚨
 
-📍 મિલકત વિગત: [Property Type & Description]
-📍 સંપૂર્ણ સરનામું (Full Address): [Flat/Plot No, Building/Society, Revenue/City Survey No, Area, Taluka (Porbandar/Ranavav/Kutiyana/Ranakandora), Gujarat]
-👤 મિલકતના માલિક / બોરોઅર (Owner/Borrower): [Full Name of Property Owner / Borrower]
-📐 ક્ષેત્રફળ (Area): [Land/Built-up Area in Sq Yards/Meters if available, else N/A]
+📍 મિલકત વિગત (Asset Type): [Property Type / Asset Sub-type like Shops, Flat, Plot, House]
+📍 સંપૂર્ણ સરનામું (Full Address): [Flat/Plot/Shop No, Building/Society, Revenue/City Survey No, Area, Taluka (Porbandar/Ranavav/Kutiyana/Ranakandora), Gujarat]
+👤 બોરોઅરનું નામ (Borrower Name): [Full Name of Property Owner / Borrower / Firm Name]
+📐 ક્ષેત્રફળ (Area): [Land/Built-up Area in Sq Yards/Meters/Sq Feet if available, else N/A]
 🧱 ચતુર્સીમા (Boundaries): [North, South, East, West boundaries if available, else N/A]
 🏦 બેંકનું નામ: [Bank Name & Branch]
-🆔 પ્રોપર્ટી ID: [Property ID if available, else N/A]
+🆔 લોટ નંબર (Lot No): [Lot Number if available, else N/A]
 💰 રિઝર્વ પ્રાઇસ (અંદાજિત રકમ): ₹ [Amount]/-
 💵 ઈ.એમ.ડી. રકમ: ₹ [Amount]/-
 📅 હરાજી તારીખ: [Date]
+📞 બેંક અધિકારી સંપર્ક (Contact Officer): [Dealing Officer Name, Designation & Phone Number]
+🏢 બેંક શાખાનું સરનામું (Bank Branch Address): [Bank Branch Address where office is located]
 
 ⚠️ ખાસ નોંધ: આ માહિતી માત્ર જાણકારી માટે છે. બોલી લગાવતા પહેલા બેંક શાખાનો સંપર્ક કરી અધિકૃત નોટિસ ચકાસી લેવી.
 
@@ -221,28 +222,30 @@ ${WA_GROUP_LINK}`;
 💰 રિઝર્વ પ્રાઇસ / ડિપોઝિટ: ₹ [Amount]/-
 💵 ઈ.એમ.ડી. રકમ: ₹ [Amount]/-
 📅 હરાજી તારીખ / છેલ્લી તારીખ: [Date]
+📞 સંપર્ક વિગત (Contact Details): [Office / Officer Contact Details if available, else N/A]
 
 ⚠️ ખાસ નોંધ: આ માહિતી માત્ર જાણકારી માટે છે. વિગતવાર માહિતી માટે સંબંધિત કચેરીનો સંપર્ક કરવો.
 
-📲 વધુ નવી હરાજીની માહિતી માટે અમારા વોટ્સએપ ગ્રુપમાં જોડાઓ:
+📲 વધુ માહિતી માટે અમારા વોટ્સએપ ગ્રુપમાં જોડાઓ:
 ${WA_GROUP_LINK}`;
 
         function prepareBankPrompt() {
             const today = new Date();
             const dateString = today.getDate() + "/" + (today.getMonth() + 1) + "/" + today.getFullYear();
 
-            const prompt = `Search all ACTIVE & UPCOMING SARFAESI bank auction properties in Porbandar district, Gujarat (including Porbandar City, Ranavav, Kutiyana, and Ranakandora/Ranakandhora).
+            const prompt = `Search all ACTIVE & UPCOMING SARFAESI bank auction properties in Porbandar district, Gujarat (including Porbandar City, Ranavav, Kutiyana, and Ranakandora).
 
-SEARCH SOURCES TO COVER:
+PRIMARY SOURCES TO COVER:
+- EAuctions India (eauctions-india.com)
 - IBAPI Portal (ibapi.in)
-- Official E-Auction portals (bankeauctions.com, baanknet.com)
-- Major banks: SBI, BOB, PNB, Canara, Union Bank, HDFC, ICICI, Axis Bank, etc.
+- Public & Private Banks (SBI, Bank of India, Bank of Baroda, HDFC, ICICI, Axis, Kotak, etc.)
 
 STRICT RULES TO FOLLOW:
-1. DATE FILTER: ONLY include auction notices where the Auction Date is AFTER TODAY (${dateString}). DO NOT include past or expired dates.
+1. DATE FILTER: ONLY include auction notices where the Auction Date is AFTER TODAY (${dateString}). DO NOT include past dates.
 2. PRICE MANDATORY: Include exact numerical Reserve Price (Amount in ₹) and EMD Amount. Do NOT write "N/A" for Price or EMD.
-3. FULL LEGAL DETAILS & OWNER NAME: Must include exact full address with Revenue/City Survey numbers, and Property Owner / Borrower Name.
-4. DO NOT include any Google Maps links or markdown URL brackets like [url](url). Write simple plain text.
+3. FULL CONTACT DETAILS MANDATORY: Must include Dealing Officer Name, Mobile/Phone Number, and Bank Branch Address.
+4. FULL LEGAL DETAILS: Include exact full address with Survey numbers, Borrower Name, and Lot Number.
+5. DO NOT include any Google Maps links or markdown URL brackets. Write simple plain text.
 
 Har ek property ki report ko strictly is Gujarati format me likho:
 ${BANK_FORMAT}`;
@@ -262,12 +265,11 @@ SEARCH SOURCES TO COVER:
 - Porbandar Nagarpalika / Collectorate notices
 - GeM Portal (gem.gov.in)
 - Central Public Procurement Portal (eprocure.gov.in)
-- Local government auction advertisements
 
 STRICT RULES TO FOLLOW:
-1. DATE FILTER: ONLY include notices where the Auction / Tender Last Date is AFTER TODAY (${dateString}). DO NOT include past or expired dates.
+1. DATE FILTER: ONLY include notices where the Auction / Tender Last Date is AFTER TODAY (${dateString}). DO NOT include past dates.
 2. PRICE MANDATORY: Include exact numerical Reserve Price / Tender Deposit Amount in ₹. Do NOT write "N/A" for Price or EMD.
-3. FULL LEGAL DETAILS & OWNER NAME: Must include complete full address with Survey numbers, and Owner / Applicant name if available.
+3. FULL LEGAL DETAILS & CONTACT: Must include complete full address with Survey numbers, Owner name, and Department/Officer contact details.
 4. DO NOT include any Google Maps links or markdown URL brackets. Write simple plain text.
 
 Har ek item ki report ko strictly is Gujarati format me likho:
@@ -285,9 +287,9 @@ ${GOVT_FORMAT}`;
             alert("✅ Search Prompt Copied! Ab Gemini me paste kar do.");
         }
 
-        // FIXED SPLITTING LOGIC (Splits full notices without cutting text)
+        // FULLY FIXED ROBUST SPLITTING LOGIC (No cutting of text)
         function splitProperties() {
-            const bulkText = document.getElementById("bulkInput").value.trim();
+            let bulkText = document.getElementById("bulkInput").value.trim();
             const container = document.getElementById("cardsContainer");
             container.innerHTML = ""; 
 
@@ -296,13 +298,14 @@ ${GOVT_FORMAT}`;
                 return;
             }
 
-            // Split properly by full title headers
+            // Universal Split using both emojis as clear section splitters
             let rawParts = bulkText.split(/(?=🚨|🏛️)/g);
             let count = 0;
 
             rawParts.forEach((part) => {
                 let cleaned = part.trim();
-                if(cleaned.length > 40) {
+                // Ensure it contains actual notice content before rendering
+                if(cleaned.includes("પોરબંદર") && cleaned.length > 30) {
                     count++;
                     let card = document.createElement("div");
                     card.className = "property-card";
@@ -316,9 +319,28 @@ ${GOVT_FORMAT}`;
             });
 
             if(count === 0) {
-                alert("⚠️ Format match nahi hua. Direct Gemini ka response paste karein.");
+                // Fallback splitting if emojis are missing but paragraphs exist
+                let altParts = bulkText.split(/\n\s*\n/);
+                altParts.forEach((part) => {
+                    let cleaned = part.trim();
+                    if(cleaned.length > 50) {
+                        count++;
+                        let card = document.createElement("div");
+                        card.className = "property-card";
+                        card.innerHTML = `
+                            <div style="font-size: 13px; font-weight: bold; color: #1a73e8; margin-bottom: 8px;">Item #${count}</div>
+                            <div class="property-text" id="prop_${count}">${cleaned}</div>
+                            <button class="btn-green" onclick="copySpecificProperty('prop_${count}')">📋 Copy Item #${count}</button>
+                        `;
+                        container.appendChild(card);
+                    }
+                });
+            }
+
+            if(count === 0) {
+                alert("⚠️ Text alag nahi ho paya. Kripya pura response sahi se paste karein.");
             } else {
-                alert(`✅ Total ${count} PURI properties ke cards ban gaye hain!`);
+                alert(`✅ Total ${count} PURI properties ke cards bina kete ban gaye hain!`);
             }
         }
 
