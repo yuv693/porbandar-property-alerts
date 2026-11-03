@@ -200,7 +200,7 @@
 💰 રિઝર્વ પ્રાઇસ (અંદાજિત રકમ): ₹ [Amount]/-
 💵 ઈ.એમ.ડી. રકમ: ₹ [Amount]/-
 📅 હરાજી તારીખ: [Date]
-📞 બેંક અધિકારી સંપર્ક (Contact Officer & Mobile): [Dealing Officer Name, Designation & Phone Number, e.g. Subhash Sable, 9099020112]
+📞 બેંક અધિકારી સંપર્ક (Contact Officer & Mobile): [Dealing Officer Name, Designation & Phone Number]
 🏢 બેંક શાખાનું સરનામું (Bank Branch Address): [Bank Branch Address where office is located]
 
 ⚠️ ખાસ નોંધ: આ માહિતી માત્ર જાણકારી માટે છે. બોલી લગાવતા પહેલા બેંક શાખાનો સંપર્ક કરી અધિકૃત નોટિસ ચકાસી લેવી.
@@ -243,7 +243,7 @@ PRIMARY SOURCES TO COVER:
 STRICT RULES TO FOLLOW:
 1. DATE FILTER: ONLY include auction notices where the Auction Date is AFTER TODAY (${dateString}). DO NOT include past dates.
 2. PRICE MANDATORY: Include exact numerical Reserve Price (Amount in ₹) and EMD Amount. Do NOT write "N/A" for Price or EMD.
-3. FULL CONTACT DETAILS MANDATORY: Must include Dealing Officer Name, Mobile/Phone Number (e.g. from EAuctions India portals), and Bank Branch Address.
+3. FULL CONTACT DETAILS MANDATORY: Must include Dealing Officer Name, Mobile/Phone Number, and Bank Branch Address.
 4. FULL LEGAL DETAILS: Include exact full address with Survey numbers, Borrower Name, and Lot Number.
 5. DO NOT include any Google Maps links or markdown URL brackets. Write simple plain text.
 
@@ -287,7 +287,7 @@ ${GOVT_FORMAT}`;
             alert("✅ Search Prompt Copied! Ab Gemini me paste kar do.");
         }
 
-        // FULLY FIXED ROBUST SPLITTING LOGIC (No cutting of text)
+        // 100% PERFECT SPLITTING LOGIC (No cutting, skips intro text)
         function splitProperties() {
             let bulkText = document.getElementById("bulkInput").value.trim();
             const container = document.getElementById("cardsContainer");
@@ -298,12 +298,14 @@ ${GOVT_FORMAT}`;
                 return;
             }
 
+            // Split strictly by notice starting emojis 🚨 or 🏛️
             let rawParts = bulkText.split(/(?=🚨|🏛️)/g);
             let count = 0;
 
             rawParts.forEach((part) => {
                 let cleaned = part.trim();
-                if(cleaned.includes("પોરબંદર") && cleaned.length > 30) {
+                // Check if the part is an actual property notice containing required keywords
+                if((cleaned.startsWith("🚨") || cleaned.startsWith("🏛️")) && cleaned.length > 50) {
                     count++;
                     let card = document.createElement("div");
                     card.className = "property-card";
@@ -317,27 +319,9 @@ ${GOVT_FORMAT}`;
             });
 
             if(count === 0) {
-                let altParts = bulkText.split(/\n\s*\n/);
-                altParts.forEach((part) => {
-                    let cleaned = part.trim();
-                    if(cleaned.length > 50) {
-                        count++;
-                        let card = document.createElement("div");
-                        card.className = "property-card";
-                        card.innerHTML = `
-                            <div style="font-size: 13px; font-weight: bold; color: #1a73e8; margin-bottom: 8px;">Item #${count}</div>
-                            <div class="property-text" id="prop_${count}">${cleaned}</div>
-                            <button class="btn-green" onclick="copySpecificProperty('prop_${count}')">📋 Copy Item #${count}</button>
-                        `;
-                        container.appendChild(card);
-                    }
-                });
-            }
-
-            if(count === 0) {
-                alert("⚠️ Text alag nahi ho paya. Kripya pura response sahi se paste karein.");
+                alert("⚠️ Format match nahi hua. Kripya dhyan dein ki response me 🚨 ya 🏛️ emoji hone chahiye.");
             } else {
-                alert(`✅ Total ${count} PURI properties ke cards bina kete ban gaye hain!`);
+                alert(`✅ Total ${count} PURI properties ke complete cards ban gaye hain!`);
             }
         }
 
