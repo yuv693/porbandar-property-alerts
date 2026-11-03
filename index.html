@@ -196,11 +196,11 @@
 📐 ક્ષેત્રફળ (Area): [Land/Built-up Area in Sq Yards/Meters/Sq Feet if available, else N/A]
 🧱 ચતુર્સીમા (Boundaries): [North, South, East, West boundaries if available, else N/A]
 🏦 બેંકનું નામ: [Bank Name & Branch]
-🆔 લોટ નંબર (Lot No): [Lot Number if available, else N/A]
+🆔 લોટ નંબર / ID (Lot No / ID): [Lot Number / Property ID if available, else N/A]
 💰 રિઝર્વ પ્રાઇસ (અંદાજિત રકમ): ₹ [Amount]/-
 💵 ઈ.એમ.ડી. રકમ: ₹ [Amount]/-
 📅 હરાજી તારીખ: [Date]
-📞 બેંક અધિકારી સંપર્ક (Contact Officer): [Dealing Officer Name, Designation & Phone Number]
+📞 બેંક અધિકારી સંપર્ક (Contact Officer & Mobile): [Dealing Officer Name, Designation & Phone Number, e.g. Subhash Sable, 9099020112]
 🏢 બેંક શાખાનું સરનામું (Bank Branch Address): [Bank Branch Address where office is located]
 
 ⚠️ ખાસ નોંધ: આ માહિતી માત્ર જાણકારી માટે છે. બોલી લગાવતા પહેલા બેંક શાખાનો સંપર્ક કરી અધિકૃત નોટિસ ચકાસી લેવી.
@@ -222,7 +222,7 @@ ${WA_GROUP_LINK}`;
 💰 રિઝર્વ પ્રાઇસ / ડિપોઝિટ: ₹ [Amount]/-
 💵 ઈ.એમ.ડી. રકમ: ₹ [Amount]/-
 📅 હરાજી તારીખ / છેલ્લી તારીખ: [Date]
-📞 સંપર્ક વિગત (Contact Details): [Office / Officer Contact Details if available, else N/A]
+📞 સંપર્ક વિગત (Contact Details): [Office / Officer Name & Contact Number if available, else N/A]
 
 ⚠️ ખાસ નોંધ: આ માહિતી માત્ર જાણકારી માટે છે. વિગતવાર માહિતી માટે સંબંધિત કચેરીનો સંપર્ક કરવો.
 
@@ -243,7 +243,7 @@ PRIMARY SOURCES TO COVER:
 STRICT RULES TO FOLLOW:
 1. DATE FILTER: ONLY include auction notices where the Auction Date is AFTER TODAY (${dateString}). DO NOT include past dates.
 2. PRICE MANDATORY: Include exact numerical Reserve Price (Amount in ₹) and EMD Amount. Do NOT write "N/A" for Price or EMD.
-3. FULL CONTACT DETAILS MANDATORY: Must include Dealing Officer Name, Mobile/Phone Number, and Bank Branch Address.
+3. FULL CONTACT DETAILS MANDATORY: Must include Dealing Officer Name, Mobile/Phone Number (e.g. from EAuctions India portals), and Bank Branch Address.
 4. FULL LEGAL DETAILS: Include exact full address with Survey numbers, Borrower Name, and Lot Number.
 5. DO NOT include any Google Maps links or markdown URL brackets. Write simple plain text.
 
@@ -298,13 +298,11 @@ ${GOVT_FORMAT}`;
                 return;
             }
 
-            // Universal Split using both emojis as clear section splitters
             let rawParts = bulkText.split(/(?=🚨|🏛️)/g);
             let count = 0;
 
             rawParts.forEach((part) => {
                 let cleaned = part.trim();
-                // Ensure it contains actual notice content before rendering
                 if(cleaned.includes("પોરબંદર") && cleaned.length > 30) {
                     count++;
                     let card = document.createElement("div");
@@ -319,7 +317,6 @@ ${GOVT_FORMAT}`;
             });
 
             if(count === 0) {
-                // Fallback splitting if emojis are missing but paragraphs exist
                 let altParts = bulkText.split(/\n\s*\n/);
                 altParts.forEach((part) => {
                     let cleaned = part.trim();
