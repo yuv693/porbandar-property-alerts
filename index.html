@@ -233,19 +233,17 @@ ${WA_GROUP_LINK}`;
             const today = new Date();
             const dateString = today.getDate() + "/" + (today.getMonth() + 1) + "/" + today.getFullYear();
 
-            const prompt = `Search all ACTIVE & UPCOMING SARFAESI bank auction properties in Porbandar district, Gujarat (including Porbandar City, Ranavav, Kutiyana, and Ranakandora).
+            const prompt = `Search all ACTIVE & UPCOMING SARFAESI bank auction properties across ALL areas in Porbandar district, Gujarat (including Porbandar City, Bokhira, Chhaya, Khapat, Madhupur, Ranavav, Kutiyana, Ranakandora, and all surrounding rural & urban areas).
 
-PRIMARY SOURCES TO COVER:
-- EAuctions India (eauctions-india.com)
-- IBAPI Portal (ibapi.in)
-- Public & Private Banks (SBI, Bank of India, Bank of Baroda, HDFC, ICICI, Axis, Kotak, etc.)
+TIME RANGE & SOURCES:
+- Search active listings for current month AND upcoming NEXT MONTH auction notices (future dates).
+- Primary Sources: EAuctions India (eauctions-india.com), IBAPI Portal (ibapi.in), Procure247, and Public/Private Banks (SBI, Bank of Baroda, HDFC, ICICI, Axis, Bank of India, etc.).
 
 STRICT RULES TO FOLLOW:
-1. DATE FILTER: ONLY include auction notices where the Auction Date is AFTER TODAY (${dateString}). DO NOT include past dates.
+1. DATE FILTER: ONLY include auction notices where the Auction Date is AFTER TODAY (${dateString}), including next month and future dates.
 2. PRICE MANDATORY: Include exact numerical Reserve Price (Amount in ₹) and EMD Amount. Do NOT write "N/A" for Price or EMD.
-3. FULL CONTACT DETAILS MANDATORY: Must include Dealing Officer Name, Mobile/Phone Number, and Bank Branch Address.
-4. FULL LEGAL DETAILS: Include exact full address with Survey numbers, Borrower Name, and Lot Number.
-5. DO NOT include any Google Maps links or markdown URL brackets. Write simple plain text.
+3. FULL CONTACT & LEGAL DETAILS: Must include Dealing Officer Name, Mobile/Phone Number, Bank Branch Address, Survey numbers, and Borrower Name.
+4. DO NOT include any Google Maps links or markdown URL brackets. Write simple plain text.
 
 Har ek property ki report ko strictly is Gujarati format me likho:
 ${BANK_FORMAT}`;
@@ -259,16 +257,15 @@ ${BANK_FORMAT}`;
             const today = new Date();
             const dateString = today.getDate() + "/" + (today.getMonth() + 1) + "/" + today.getFullYear();
 
-            const prompt = `Search active public commercial open plots, land auctions, shop leases, or tenders in Porbandar, Gujarat.
+            const prompt = `Search active public commercial open plots, land auctions, shop leases, or tenders across ALL areas in Porbandar district, Gujarat (including Porbandar City, Bokhira, Chhaya, Khapat, Ranavav, Kutiyana, and surrounding areas).
 
-SEARCH SOURCES TO COVER:
-- Porbandar Nagarpalika / Collectorate notices
-- GeM Portal (gem.gov.in)
-- Central Public Procurement Portal (eprocure.gov.in)
+TIME RANGE & SOURCES:
+- Include current month AND upcoming NEXT MONTH tender/auction dates.
+- Sources: Porbandar Nagarpalika, Collectorate notices, GeM Portal (gem.gov.in), and Central Public Procurement Portal (eprocure.gov.in).
 
 STRICT RULES TO FOLLOW:
-1. DATE FILTER: ONLY include notices where the Auction / Tender Last Date is AFTER TODAY (${dateString}). DO NOT include past dates.
-2. PRICE MANDATORY: Include exact numerical Reserve Price / Tender Deposit Amount in ₹. Do NOT write "N/A" for Price or EMD.
+1. DATE FILTER: ONLY include notices where the Auction / Tender Last Date is AFTER TODAY (${dateString}), covering next month's upcoming dates as well.
+2. PRICE MANDATORY: Include exact numerical Reserve Price / Tender Deposit Amount in ₹. Do NOT write "N/A".
 3. FULL LEGAL DETAILS & CONTACT: Must include complete full address with Survey numbers, Owner name, and Department/Officer contact details.
 4. DO NOT include any Google Maps links or markdown URL brackets. Write simple plain text.
 
@@ -287,7 +284,6 @@ ${GOVT_FORMAT}`;
             alert("✅ Search Prompt Copied! Ab Gemini me paste kar do.");
         }
 
-        // 100% PERFECT SPLITTING LOGIC (No cutting, skips intro text)
         function splitProperties() {
             let bulkText = document.getElementById("bulkInput").value.trim();
             const container = document.getElementById("cardsContainer");
@@ -298,14 +294,17 @@ ${GOVT_FORMAT}`;
                 return;
             }
 
-            // Split strictly by notice starting emojis 🚨 or 🏛️
+            let firstIndex = bulkText.search(/🚨|🏛️/);
+            if (firstIndex !== -1) {
+                bulkText = bulkText.substring(firstIndex);
+            }
+
             let rawParts = bulkText.split(/(?=🚨|🏛️)/g);
             let count = 0;
 
             rawParts.forEach((part) => {
                 let cleaned = part.trim();
-                // Check if the part is an actual property notice containing required keywords
-                if((cleaned.startsWith("🚨") || cleaned.startsWith("🏛️")) && cleaned.length > 50) {
+                if((cleaned.startsWith("🚨") || cleaned.startsWith("🏛️")) && cleaned.length > 60) {
                     count++;
                     let card = document.createElement("div");
                     card.className = "property-card";
@@ -321,7 +320,7 @@ ${GOVT_FORMAT}`;
             if(count === 0) {
                 alert("⚠️ Format match nahi hua. Kripya dhyan dein ki response me 🚨 ya 🏛️ emoji hone chahiye.");
             } else {
-                alert(`✅ Total ${count} PURI properties ke complete cards ban gaye hain!`);
+                alert(`✅ Total ${count} PURI properties ke complete single cards ban gaye hain!`);
             }
         }
 
