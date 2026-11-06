@@ -69,7 +69,7 @@
             color: white; 
             border: none; 
             padding: 12px; 
-            font-size: 14px; 
+            font-size: 13px; 
             font-weight: bold; 
             border-radius: 8px; 
             cursor: pointer; 
@@ -200,8 +200,9 @@
 💰 રિઝર્વ પ્રાઇસ (અંદાજિત રકમ): ₹ [Amount]/-
 💵 ઈ.એમ.ડી. રકમ: ₹ [Amount]/-
 📅 હરાજી તારીખ: [Date]
-📞 બેંક અધિકારી સંપર્ક (Contact Officer & Mobile): [Dealing Officer Name, Designation & Phone Number]
+📞 બેંક અધિકારી સંપર્ક (Contact Officer & Phone): [Dealing Officer / Authorized Officer Name & Direct Phone/Mobile Number]
 🏢 બેંક શાખાનું સરનામું (Bank Branch Address): [Bank Branch Address where office is located]
+🔗 ઓનલાઇન અરજી/વિગત લિંક (Direct Link): [Exact Web URL / Auction Portal Link for details and bidding]
 
 ⚠️ ખાસ નોંધ: આ માહિતી માત્ર જાણકારી માટે છે. બોલી લગાવતા પહેલા બેંક શાખાનો સંપર્ક કરી અધિકૃત નોટિસ ચકાસી લેવી.
 
@@ -222,7 +223,8 @@ ${WA_GROUP_LINK}`;
 💰 રિઝર્વ પ્રાઇસ / ડિપોઝિટ: ₹ [Amount]/-
 💵 ઈ.એમ.ડી. રકમ: ₹ [Amount]/-
 📅 હરાજી તારીખ / છેલ્લી તારીખ: [Date]
-📞 સંપર્ક વિગત (Contact Details): [Office / Officer Name & Contact Number if available, else N/A]
+📞 સંપર્ક વિગત (Contact Officer & Phone): [Office / Dealing Officer Contact Person Name & Phone Number]
+🔗 ઓનલાઇન ટેન્ડર લિંક (Direct Link): [Exact Portal Link for Tender/Auction Submission]
 
 ⚠️ ખાસ નોંધ: આ માહિતી માત્ર જાણકારી માટે છે. વિગતવાર માહિતી માટે સંબંધિત કચેરીનો સંપર્ક કરવો.
 
@@ -233,7 +235,7 @@ ${WA_GROUP_LINK}`;
             const today = new Date();
             const dateString = today.getDate() + "/" + (today.getMonth() + 1) + "/" + today.getFullYear();
 
-            const prompt = `Search all ACTIVE & UPCOMING SARFAESI bank auction properties across ALL areas in Porbandar district, Gujarat (including Porbandar City, Bokhira, Chhaya, Khapat, Madhupur, Ranavav, Kutiyana, Ranakandora, and all surrounding rural & urban areas).
+            const prompt = `Search all ACTIVE & UPCOMING SARFAESI bank auction properties across ALL areas in Porbandar district, Gujarat (including Porbandar City, Bokhira, Chhaya, Khapat, Madhupur, Ranavav, Kutiyana, Ranakandora, and surrounding areas).
 
 TIME RANGE & SOURCES:
 - Search active listings for current month AND upcoming NEXT MONTH auction notices (future dates).
@@ -242,8 +244,9 @@ TIME RANGE & SOURCES:
 STRICT RULES TO FOLLOW:
 1. DATE FILTER: ONLY include auction notices where the Auction Date is AFTER TODAY (${dateString}), including next month and future dates.
 2. PRICE MANDATORY: Include exact numerical Reserve Price (Amount in ₹) and EMD Amount. Do NOT write "N/A" for Price or EMD.
-3. FULL CONTACT & LEGAL DETAILS: Must include Dealing Officer Name, Mobile/Phone Number, Bank Branch Address, Survey numbers, and Borrower Name.
-4. DO NOT include any Google Maps links or markdown URL brackets. Write simple plain text.
+3. MANDATORY CONTACT & DIRECT LINK: Strictly include Dealing Officer Name, Mobile/Phone Number, Bank Branch Address, and exact Web URL/Link of the auction listing for online process.
+4. FULL LEGAL DETAILS: Include exact full address with Revenue/City Survey numbers, Borrower Name, and Lot Number/ID.
+5. Provide standard plain text URLs for direct links without formatting errors.
 
 Har ek property ki report ko strictly is Gujarati format me likho:
 ${BANK_FORMAT}`;
@@ -266,8 +269,8 @@ TIME RANGE & SOURCES:
 STRICT RULES TO FOLLOW:
 1. DATE FILTER: ONLY include notices where the Auction / Tender Last Date is AFTER TODAY (${dateString}), covering next month's upcoming dates as well.
 2. PRICE MANDATORY: Include exact numerical Reserve Price / Tender Deposit Amount in ₹. Do NOT write "N/A".
-3. FULL LEGAL DETAILS & CONTACT: Must include complete full address with Survey numbers, Owner name, and Department/Officer contact details.
-4. DO NOT include any Google Maps links or markdown URL brackets. Write simple plain text.
+3. MANDATORY CONTACT & DIRECT LINK: Include Officer/Department contact person name, phone number, and official online portal link for online submission.
+4. FULL LEGAL DETAILS: Must include complete full address with Survey numbers, Owner name, and Tender ID.
 
 Har ek item ki report ko strictly is Gujarati format me likho:
 ${GOVT_FORMAT}`;
