@@ -237,7 +237,7 @@ ${WA_GROUP_LINK}`;
 📍 બેંક શાખાનું નામ: [Bank Name & Branch Address in Porbandar, Bokhira, Chhaya, etc.]
 👤 ગ્રાહક/બોરોઅરનું નામ: [Borrower Name / Account Number]
 ⚖️ સોનાની વિગત: [Gross/Net Weight in Grams & Purity, e.g., 50 Grams 22K]
-💰 રિઝર્વ પ્રાઇઝ / લોન રકમ: ₹ [Amount]/–
+💰 રિઝર્વ પ્રાઇસ / લોન રકમ: ₹ [Amount]/–
 📅 હરાજી તારીખ & સમય: [Date & Time]
 📞 સંપર્ક અધિકારી: [Officer Name & Phone]
 🔗 લિંક: [Direct Link / N/A]
@@ -295,13 +295,18 @@ ${BANK_FORMAT}`;
             const today = new Date();
             const dateString = today.getDate() + "/" + (today.getMonth() + 1) + "/" + today.getFullYear();
 
-            const prompt = `Your job is to extract details from Bank Gold Loan Auction Notices in Porbandar district and surrounding areas (Porbandar, Chhaya, Bokhira, Khapat, Ranavav, Kutiyana, etc.) for WhatsApp sharing.
+            const prompt = `Search all active & upcoming Bank Gold Loan default auction notices, public newspaper notices, and pledged gold recovery listings in Porbandar district, Gujarat (including Porbandar City, Bokhira, Chhaya, Khapat, Ranavav, Kutiyana).
 
-TIME RANGE & SOURCES:
-- Search active & upcoming Bank Gold Loan default auctions scheduled AFTER TODAY (${dateString}).
-- Search across public sector banks, private banks (HDFC, ICICI, Axis, BOB, SBI, Bank of India, Muthoot, Manappuram, etc.) operating in Porbandar.
+SOURCES TO TARGET:
+- Official Public Sector & Private Banks (SBI, Bank of Baroda, Bank of India, HDFC, ICICI, Axis, Muthoot Finance, Manappuram Finance branches in Porbandar).
+- Local newspaper auction ads published for Porbandar.
 
-EXTRACT AND POPULATE FOLLOWING TEMPLATE FOR EACH GOLD AUCTION NOTICE:
+STRICT INSTRUCTIONS FOR EXTRACTION:
+1. DATE FILTER: Only include auctions scheduled AFTER TODAY (${dateString}), including next month's future dates.
+2. DETAILED EXTRACTION: Try to find specific Borrower Name, exact Gold Weight in Grams, and exact Reserve Price/Loan amount if available in public notices. If specific customer name is hidden by the bank, clearly state the branch details and official contact procedure.
+3. MANDATORY CONTACT & LINK: Provide the exact branch address, phone number, and official web link.
+
+Har ek gold loan auction ki report strictly is Gujarati format me likho:
 ${GOLD_FORMAT}`;
 
             document.getElementById("goldFinalPrompt").value = prompt;
