@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Porbandar Auction & Tender Portal</title>
+    <title>Porbandar & Gujarat Auction Portal</title>
     <style>
         body { 
             font-family: Arial, sans-serif; 
@@ -100,6 +100,18 @@
             width: 100%; 
             margin-top: 8px; 
         }
+        .btn-red { 
+            background-color: #dc3545; 
+            color: white; 
+            border: none; 
+            padding: 10px; 
+            font-size: 13px; 
+            font-weight: bold; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            width: 100%; 
+            margin-top: 8px; 
+        }
         .btn-gemini { 
             background-color: #0d6efd; 
             color: white; 
@@ -153,16 +165,16 @@
 <body>
 
     <div class="container">
-        <h2>Porbandar Auction & Tenders Portal</h2>
+        <h2>Porbandar & Gujarat Auction Portal</h2>
 
         <!-- DIRECT WHATSAPP GROUP LINK BUTTON -->
         <a href="https://chat.whatsapp.com/GkkqH2u5bB9G8yVain2KdX?s=cl&p=a&mlu=4&ilr=4" target="_blank" class="btn-whatsapp">
             💬 Join Our WhatsApp Group
         </a>
 
-        <!-- BOX 1: REAL ESTATE BANK AUCTION PROMPT -->
+        <!-- BOX 1: REAL ESTATE BANK AUCTION PROMPT (PORBANDAR) -->
         <div class="box-section">
-            <div class="section-title">1️⃣ Bank Real Estate Auction Prompt</div>
+            <div class="section-title">1️⃣ Porbandar Bank Property Auction Prompt</div>
             <button class="btn-blue" onclick="prepareBankPrompt()">🏢 Property Search Prompt Banao</button>
 
             <div id="bankResultBox" style="display:none; margin-top: 10px;">
@@ -172,10 +184,10 @@
             </div>
         </div>
 
-        <!-- BOX 2: VEHICLE (CAR & BIKE) AUCTION PROMPT -->
+        <!-- BOX 2: VEHICLE (CAR & BIKE) AUCTION PROMPT (ALL GUJARAT) -->
         <div class="box-section">
-            <div class="section-title">2️⃣ Bank & Finance Vehicle (Car/Bike) Prompt</div>
-            <button class="btn-vehicle" onclick="prepareVehiclePrompt()">🚗 Vehicle Auction Prompt Banao</button>
+            <div class="section-title">2️⃣ All Gujarat Vehicle (Car/Bike) Auction Prompt</div>
+            <button class="btn-vehicle" onclick="prepareVehiclePrompt()">🚗 All Gujarat Vehicle Prompt Banao</button>
 
             <div id="vehicleResultBox" style="display:none; margin-top: 10px;">
                 <textarea id="vehicleFinalPrompt" readonly></textarea>
@@ -186,7 +198,7 @@
 
         <!-- BOX 3: NAGARPALIKA & GOVT COMMERCIAL PLOTS / TENDERS PROMPT -->
         <div class="box-section">
-            <div class="section-title">3️⃣ Nagarpalika & Govt Portals Prompt</div>
+            <div class="section-title">3️⃣ Porbandar Nagarpalika & Govt Portals Prompt</div>
             <button class="btn-orange" onclick="prepareGovtPrompt()">🏛️ Create Govt/Plot Search Prompt</button>
 
             <div id="govtResultBox" style="display:none; margin-top: 10px;">
@@ -201,6 +213,7 @@
             <div class="section-title">4️⃣ Gemini Result Paste Karo (Cards)</div>
             <textarea id="bulkInput" placeholder="Gemini ka pura response yahan paste karo..."></textarea>
             <button class="btn-blue" onclick="splitProperties()">✂️ Alag-Alag Cards Banao</button>
+            <button class="btn-red" onclick="clearCards()">🗑️ Clear All</button>
             
             <div id="cardsContainer" style="margin-top: 15px;"></div>
         </div>
@@ -232,16 +245,17 @@ ${WA_GROUP_LINK}`;
 
         const VEHICLE_FORMAT = `Aapko har ek seized vehicle (Car / Bike / Two-Wheeler / Commercial Vehicle) auction ki report strictly isi clean Gujarati format me deni hai:
 
-🚨 પોરબંદર બેંક / ફાઇનાન્સ વાહન હરાજી (Vehicle Auction Notice) 🚨
+🚨 ગુજરાત બેંક / ફાઇનાન્સ વાહન હરાજી (All Gujarat Vehicle Auction) 🚨
 
 🚗 વાહનની વિગત: [Car / Bike Make, Model & Manufacturing Year, e.g., Maruti Swift VXI 2021 / Honda Activa 6G]
-🔢 રજીસ્ટ્રેશન નંબર: [RTO Vehicle Number if available, else N/A]
+🔢 રજીસ્ટ્રેશન નંબર: [RTO Vehicle Number, e.g., GJ-01 / GJ-03 / GJ-25 / GJ-05 etc., else N/A]
 ⛽ ફ્યુઅલ / પ્રકાર: [Petrol / Diesel / CNG / EV / Two-Wheeler / Four-Wheeler]
 📄 RC / કાગળોની સ્થિતિ: [RC Available / Photocopy / NOC Required / As-Is, else N/A]
 🛡️ વીમો (Insurance) સ્થિતિ: [Active / Expired / Not Available, else N/A]
 🏷️ હરાજીનો પ્રકાર: [Online Auction / Yard Bid / Sealed Tender, else N/A]
-📍 પાર્કિંગ યાર્ડ સરનામું: [Yard / Godown Address in Porbandar, Bokhira, Chhaya, Ranavav, Kutiyana, etc.]
-🏦 બેંક / ફાઇનાન્સ કંપની: [Bank / Finance Company Name, e.g., SBI, HDFC, Shriram Finance, SAMIL]
+🏙️ શહેર / જિલ્લો (City & District): [City & District in Gujarat, e.g., Porbandar, Rajkot, Ahmedabad, Surat, Vadodara, Jamnagar, Junagadh, Bhavnagar, etc.]
+📍 પાર્કિંગ યાર્ડ સરનામું: [Exact Yard / Godown Address in Gujarat]
+🏦 બેંક / ફાઇનાન્સ કંપની: [Bank / Finance Company Name, e.g., SBI, HDFC, ICICI, Shriram Finance, SAMIL, Mahindra Finance]
 🆔 લોટ / ઇવેન્ટ ID: [Lot / Auction ID if available, else N/A]
 💰 રિઝર્વ પ્રાઇસ: ₹ [Amount]/-
 💵 ઈ.એમ.ડી. રકમ: ₹ [Amount]/- (If available, else N/A)
@@ -302,16 +316,17 @@ ${BANK_FORMAT}`;
             const today = new Date();
             const dateString = today.getDate() + "/" + (today.getMonth() + 1) + "/" + today.getFullYear();
 
-            const prompt = `Search all ACTIVE & UPCOMING bank and finance seized vehicle auctions (Cars, Bikes, Two-Wheelers, Commercial Vehicles) across ALL areas in Porbandar district, Gujarat (including Porbandar City, Bokhira, Chhaya, Khapat, Ranavav, Kutiyana, Ranakandora, and surrounding areas).
+            const prompt = `Search all ACTIVE & UPCOMING bank and finance seized vehicle auctions (Cars, Bikes, Two-Wheelers, Commercial Vehicles) across ALL CITIES & DISTRICTS OF GUJARAT STATE (including Porbandar, Rajkot, Jamnagar, Junagadh, Ahmedabad, Surat, Vadodara, Bhavnagar, Morbi, Gandhidham/Kutch, Anand, Mehsana, Navsari, Valsad, and all other Gujarat districts).
 
 TIME RANGE & SOURCES:
 - Include current month AND upcoming NEXT MONTH vehicle auction dates scheduled AFTER TODAY (${dateString}).
-- Sources: Banks and NBFCs (SBI, HDFC, ICICI, Axis, Shriram Finance, SAMIL, Mahindra Finance, Bajaj Finance, etc.) and vehicle auction portals.
+- Sources: Banks and NBFCs (SBI, HDFC, ICICI, Axis, Bank of Baroda, Shriram Finance, SAMIL / Shriram Automall, Mahindra Finance, Bajaj Finance, Kotak Mahindra, Cholamandalam, etc.) and vehicle auction portals across Gujarat.
 
 STRICT RULES TO FOLLOW:
 1. DATE FILTER: ONLY include vehicle auctions scheduled AFTER TODAY (${dateString}), including next month's future dates.
-2. VEHICLE, PAPERS & YARD DETAILS: Include vehicle model/type, registration number, RC/paper status, insurance status, auction mode (online/yard/tender), parking yard address in Porbandar/surrounding areas, reserve price, and officer/yard contact number.
-3. DO NOT include any Google Maps links or markdown URL brackets. Write simple plain text.
+2. ALL GUJARAT COVERAGE: Include vehicles located at any yard across Gujarat. Clearly mention the City & District name for each vehicle.
+3. VEHICLE, PAPERS & YARD DETAILS: Include vehicle model/type, registration number (GJ series), RC/paper status, insurance status, auction mode (online/yard/tender), exact parking yard address in Gujarat, reserve price, and officer/yard contact number.
+4. DO NOT include any Google Maps links or markdown URL brackets. Write simple plain text.
 
 Har ek vehicle auction ki report ko strictly is Gujarati format me likho:
 ${VEHICLE_FORMAT}`;
@@ -379,6 +394,11 @@ ${GOVT_FORMAT}`;
             copyTextReliable(text, "✅ Search Prompt Copied! Ab Gemini me paste kar do.");
         }
 
+        function clearCards() {
+            document.getElementById("bulkInput").value = "";
+            document.getElementById("cardsContainer").innerHTML = "";
+        }
+
         function splitProperties() {
             let bulkText = document.getElementById("bulkInput").value.replace(/\r\n/g, "\n").trim();
             const container = document.getElementById("cardsContainer");
@@ -438,7 +458,7 @@ ${GOVT_FORMAT}`;
             const textElement = document.getElementById(elementId);
             if (!textElement) return;
             const fullText = textElement.textContent;
-            copyTextReliable(fullText, "✅ Pura Card (upar ki heading ke saath) Copy ho gaya! Ab WhatsApp me paste kar do.");
+            copyTextReliable(fullText, "✅ Pura Card Copy ho gaya! Ab WhatsApp me paste kar do.");
         }
     </script>
 
