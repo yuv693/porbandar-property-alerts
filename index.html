@@ -64,8 +64,8 @@
             width: 100%; 
             margin-top: 8px; 
         }
-        .btn-gold { 
-            background-color: #d4af37; 
+        .btn-vehicle { 
+            background-color: #0f9d58; 
             color: white; 
             border: none; 
             padding: 12px; 
@@ -172,15 +172,15 @@
             </div>
         </div>
 
-        <!-- BOX 2: GOLD LOAN AUCTION PROMPT (ALAG BOX) -->
+        <!-- BOX 2: VEHICLE (CAR & BIKE) AUCTION PROMPT -->
         <div class="box-section">
-            <div class="section-title">2️⃣ Bank Gold Loan Auction Prompt</div>
-            <button class="btn-gold" onclick="prepareGoldPrompt()">🪙 Gold Loan Auction Prompt Banao</button>
+            <div class="section-title">2️⃣ Bank & Finance Vehicle (Car/Bike) Prompt</div>
+            <button class="btn-vehicle" onclick="prepareVehiclePrompt()">🚗 Vehicle Auction Prompt Banao</button>
 
-            <div id="goldResultBox" style="display:none; margin-top: 10px;">
-                <textarea id="goldFinalPrompt" readonly></textarea>
-                <button class="btn-green" onclick="copyPrompt('goldFinalPrompt', 'goldGeminiBtn')">📋 Copy Gold Prompt</button>
-                <a href="https://gemini.google.com" target="_blank" class="btn-gemini" id="goldGeminiBtn">🌐 Open Gemini & Search Gold</a>
+            <div id="vehicleResultBox" style="display:none; margin-top: 10px;">
+                <textarea id="vehicleFinalPrompt" readonly></textarea>
+                <button class="btn-green" onclick="copyPrompt('vehicleFinalPrompt', 'vehicleGeminiBtn')">📋 Copy Vehicle Prompt</button>
+                <a href="https://gemini.google.com" target="_blank" class="btn-gemini" id="vehicleGeminiBtn">🌐 Open Gemini & Search Vehicles</a>
             </div>
         </div>
 
@@ -230,19 +230,26 @@
 📲 વધુ માહિતી માટે અમારા વોટ્સએપ ગ્રુપમાં જોડાઓ:
 ${WA_GROUP_LINK}`;
 
-        const GOLD_FORMAT = `Aapko har ek gold loan default auction ki report strictly isi clean Gujarati format me deni hai:
+        const VEHICLE_FORMAT = `Aapko har ek seized vehicle (Car / Bike / Two-Wheeler / Commercial Vehicle) auction ki report strictly isi clean Gujarati format me deni hai:
 
-🚨 પોરબંદર બેંક સોનાની હરાજી (Gold Loan Auction Notice) 🚨
+🚨 પોરબંદર બેંક / ફાઇનાન્સ વાહન હરાજી (Vehicle Auction Notice) 🚨
 
-📍 બેંક શાખાનું નામ: [Bank Name & Branch Address in Porbandar, Bokhira, Chhaya, etc.]
-👤 ગ્રાહક/બોરોઅરનું નામ: [Borrower Name / Account Number]
-⚖️ સોનાની વિગત: [Gross/Net Weight in Grams & Purity, e.g., 50 Grams 22K]
-💰 રિઝર્વ પ્રાઇસ / લોન રકમ: ₹ [Amount]/–
+🚗 વાહનની વિગત: [Car / Bike Make, Model & Manufacturing Year, e.g., Maruti Swift VXI 2021 / Honda Activa 6G]
+🔢 રજીસ્ટ્રેશન નંબર: [RTO Vehicle Number if available, else N/A]
+⛽ ફ્યુઅલ / પ્રકાર: [Petrol / Diesel / CNG / EV / Two-Wheeler / Four-Wheeler]
+📄 RC / કાગળોની સ્થિતિ: [RC Available / Photocopy / NOC Required / As-Is, else N/A]
+🛡️ વીમો (Insurance) સ્થિતિ: [Active / Expired / Not Available, else N/A]
+🏷️ હરાજીનો પ્રકાર: [Online Auction / Yard Bid / Sealed Tender, else N/A]
+📍 પાર્કિંગ યાર્ડ સરનામું: [Yard / Godown Address in Porbandar, Bokhira, Chhaya, Ranavav, Kutiyana, etc.]
+🏦 બેંક / ફાઇનાન્સ કંપની: [Bank / Finance Company Name, e.g., SBI, HDFC, Shriram Finance, SAMIL]
+🆔 લોટ / ઇવેન્ટ ID: [Lot / Auction ID if available, else N/A]
+💰 રિઝર્વ પ્રાઇસ: ₹ [Amount]/-
+💵 ઈ.એમ.ડી. રકમ: ₹ [Amount]/- (If available, else N/A)
 📅 હરાજી તારીખ & સમય: [Date & Time]
-📞 સંપર્ક અધિકારી: [Officer Name & Phone]
+📞 સંપર્ક અધિકારી: [Officer / Yard Contact Name & Mobile Number]
 🔗 લિંક: [Direct Link / N/A]
 
-⚠️ ખાસ નોંધ: આ માહિતી માત્ર જાણકારી માટે છે. બોલી લગાવતા પહેલા બેંક શાખાનો સંપર્ક કરવો.
+⚠️ ખાસ નોંધ: આ માહિતી માત્ર જાણકારી માટે છે. બોલી લગાવતા પહેલા યાર્ડ પર જઈ વાહનની સ્થિતિ, વીમો અને કાગળો (RC Book/NOC) ચકાસી લેવા.
 
 📲 વધુ માહિતી માટે અમારા વોટ્સએપ ગ્રુપમાં જોડાઓ:
 ${WA_GROUP_LINK}`;
@@ -291,27 +298,27 @@ ${BANK_FORMAT}`;
             document.getElementById("bankGeminiBtn").style.display = "block";
         }
 
-        function prepareGoldPrompt() {
+        function prepareVehiclePrompt() {
             const today = new Date();
             const dateString = today.getDate() + "/" + (today.getMonth() + 1) + "/" + today.getFullYear();
 
-            const prompt = `Search all active & upcoming Bank Gold Loan default auction notices, public newspaper notices, and pledged gold recovery listings in Porbandar district, Gujarat (including Porbandar City, Bokhira, Chhaya, Khapat, Ranavav, Kutiyana).
+            const prompt = `Search all ACTIVE & UPCOMING bank and finance seized vehicle auctions (Cars, Bikes, Two-Wheelers, Commercial Vehicles) across ALL areas in Porbandar district, Gujarat (including Porbandar City, Bokhira, Chhaya, Khapat, Ranavav, Kutiyana, Ranakandora, and surrounding areas).
 
-SOURCES TO TARGET:
-- Official Public Sector & Private Banks (SBI, Bank of Baroda, Bank of India, HDFC, ICICI, Axis, Muthoot Finance, Manappuram Finance branches in Porbandar).
-- Local newspaper auction ads published for Porbandar.
+TIME RANGE & SOURCES:
+- Include current month AND upcoming NEXT MONTH vehicle auction dates scheduled AFTER TODAY (${dateString}).
+- Sources: Banks and NBFCs (SBI, HDFC, ICICI, Axis, Shriram Finance, SAMIL, Mahindra Finance, Bajaj Finance, etc.) and vehicle auction portals.
 
-STRICT INSTRUCTIONS FOR EXTRACTION:
-1. DATE FILTER: Only include auctions scheduled AFTER TODAY (${dateString}), including next month's future dates.
-2. DETAILED EXTRACTION: Try to find specific Borrower Name, exact Gold Weight in Grams, and exact Reserve Price/Loan amount if available in public notices. If specific customer name is hidden by the bank, clearly state the branch details and official contact procedure.
-3. MANDATORY CONTACT & LINK: Provide the exact branch address, phone number, and official web link.
+STRICT RULES TO FOLLOW:
+1. DATE FILTER: ONLY include vehicle auctions scheduled AFTER TODAY (${dateString}), including next month's future dates.
+2. VEHICLE, PAPERS & YARD DETAILS: Include vehicle model/type, registration number, RC/paper status, insurance status, auction mode (online/yard/tender), parking yard address in Porbandar/surrounding areas, reserve price, and officer/yard contact number.
+3. DO NOT include any Google Maps links or markdown URL brackets. Write simple plain text.
 
-Har ek gold loan auction ki report strictly is Gujarati format me likho:
-${GOLD_FORMAT}`;
+Har ek vehicle auction ki report ko strictly is Gujarati format me likho:
+${VEHICLE_FORMAT}`;
 
-            document.getElementById("goldFinalPrompt").value = prompt;
-            document.getElementById("goldResultBox").style.display = "block";
-            document.getElementById("goldGeminiBtn").style.display = "block";
+            document.getElementById("vehicleFinalPrompt").value = prompt;
+            document.getElementById("vehicleResultBox").style.display = "block";
+            document.getElementById("vehicleGeminiBtn").style.display = "block";
         }
 
         function prepareGovtPrompt() {
@@ -338,15 +345,42 @@ ${GOVT_FORMAT}`;
             document.getElementById("govtGeminiBtn").style.display = "block";
         }
 
+        function copyTextReliable(text, successMsg) {
+            if (navigator.clipboard && window.isSecureContext) {
+                navigator.clipboard.writeText(text).then(() => {
+                    alert(successMsg);
+                }).catch(() => {
+                    fallbackCopy(text, successMsg);
+                });
+            } else {
+                fallbackCopy(text, successMsg);
+            }
+        }
+
+        function fallbackCopy(text, successMsg) {
+            const tempArea = document.createElement("textarea");
+            tempArea.value = text;
+            tempArea.style.position = "fixed";
+            tempArea.style.left = "-9999px";
+            document.body.appendChild(tempArea);
+            tempArea.focus();
+            tempArea.select();
+            try {
+                document.execCommand("copy");
+                alert(successMsg);
+            } catch (err) {
+                alert("⚠️ Copy karne me dikkat aayi, manually select karke copy karein.");
+            }
+            document.body.removeChild(tempArea);
+        }
+
         function copyPrompt(textareaId, geminiBtnId) {
-            const textarea = document.getElementById(textareaId);
-            textarea.select();
-            document.execCommand("copy");
-            alert("✅ Search Prompt Copied! Ab Gemini me paste kar do.");
+            const text = document.getElementById(textareaId).value;
+            copyTextReliable(text, "✅ Search Prompt Copied! Ab Gemini me paste kar do.");
         }
 
         function splitProperties() {
-            let bulkText = document.getElementById("bulkInput").value.trim();
+            let bulkText = document.getElementById("bulkInput").value.replace(/\r\n/g, "\n").trim();
             const container = document.getElementById("cardsContainer");
             container.innerHTML = ""; 
 
@@ -355,45 +389,56 @@ ${GOVT_FORMAT}`;
                 return;
             }
 
-            let firstIndex = bulkText.search(/🚨|🏛️/);
-            if (firstIndex !== -1) {
-                bulkText = bulkText.substring(firstIndex);
-            }
-
-            let rawParts = bulkText.split(/(?=🚨|🏛️)/g);
-            let count = 0;
+            let rawParts = bulkText.split(/(?=(?:^|\n)[ \t]*(?:🚨|🏛️))/g);
+            let blocks = [];
 
             rawParts.forEach((part) => {
                 let cleaned = part.trim();
-                if((cleaned.startsWith("🚨") || cleaned.startsWith("🏛️")) && cleaned.length > 50) {
-                    count++;
-                    let card = document.createElement("div");
-                    card.className = "property-card";
-                    card.innerHTML = `
-                        <div style="font-size: 13px; font-weight: bold; color: #1a73e8; margin-bottom: 8px;">Item #${count}</div>
-                        <div class="property-text" id="prop_${count}">${cleaned}</div>
-                        <button class="btn-green" onclick="copySpecificProperty('prop_${count}')">📋 Copy Item #${count}</button>
-                    `;
-                    container.appendChild(card);
+                if (cleaned.length > 20) {
+                    blocks.push(cleaned);
                 }
             });
 
-            if(count === 0) {
-                alert("⚠️ Format match nahi hua. Kripya dhyan dein ki response me 🚨 ya 🏛️ emoji hone chahiye.");
-            } else {
-                alert(`✅ Total ${count} PURI notices ke complete single cards ban gaye hain!`);
+            if (blocks.length === 0 && bulkText.length > 0) {
+                blocks.push(bulkText);
             }
+
+            let count = 0;
+            blocks.forEach((cleaned) => {
+                count++;
+                let card = document.createElement("div");
+                card.className = "property-card";
+
+                let headerDiv = document.createElement("div");
+                headerDiv.style.cssText = "font-size: 13px; font-weight: bold; color: #1a73e8; margin-bottom: 8px;";
+                headerDiv.textContent = "Item #" + count;
+
+                let textDiv = document.createElement("div");
+                textDiv.className = "property-text";
+                textDiv.id = "prop_" + count;
+                textDiv.textContent = cleaned;
+
+                let copyBtn = document.createElement("button");
+                copyBtn.className = "btn-green";
+                copyBtn.textContent = "📋 Copy Item #" + count;
+                copyBtn.onclick = function() {
+                    copySpecificProperty("prop_" + count);
+                };
+
+                card.appendChild(headerDiv);
+                card.appendChild(textDiv);
+                card.appendChild(copyBtn);
+                container.appendChild(card);
+            });
+
+            alert(`✅ Total ${count} PURI notices ke complete single cards ban gaye hain!`);
         }
 
         function copySpecificProperty(elementId) {
             const textElement = document.getElementById(elementId);
-            const range = document.createRange();
-            range.selectNode(textElement);
-            window.getSelection().removeAllRanges();
-            window.getSelection().addRange(range);
-            document.execCommand("copy");
-            window.getSelection().removeAllRanges();
-            alert("✅ Card Copied! Ab WhatsApp group par paste kar do.");
+            if (!textElement) return;
+            const fullText = textElement.textContent;
+            copyTextReliable(fullText, "✅ Pura Card (upar ki heading ke saath) Copy ho gaya! Ab WhatsApp me paste kar do.");
         }
     </script>
 
